@@ -29,6 +29,7 @@ public class EnemyAI : MonoBehaviour
         navMeshAgent.updateUpAxis = false;
         commonState = startingState;
     }
+
     private void Update()
     {
         switch (commonState)
@@ -44,6 +45,7 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
     }
+
     private void Roaming()
     {
         startingPosition = transform.position;
@@ -51,6 +53,7 @@ public class EnemyAI : MonoBehaviour
         ChangeFacingDirection(startingPosition, roamingPosition);
         navMeshAgent.SetDestination(roamingPosition);
     }
+
     private Vector3 GetRoamingPosition()
     {
         return startingPosition + Utils.GetRandomDir() * UnityEngine.Random.Range(roamingDistanceMin, roamingDistanceMax);

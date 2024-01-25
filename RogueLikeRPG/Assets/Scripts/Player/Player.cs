@@ -17,14 +17,17 @@ public class Player : MonoBehaviour
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
     }
+
     private void Update()
     {
         inputVector = GameInput.Instance.GetMovementVector();
     }
+
     private void FixedUpdate()
     {
         HandleMovement();
     }
+
     private void HandleMovement()
     {
         rb.MovePosition(rb.position + inputVector * (movingSpeed * Time.fixedDeltaTime));
@@ -36,10 +39,12 @@ public class Player : MonoBehaviour
             isWalking = false;
         }
     }
+
     public bool IsWalking()
     {
         return isWalking;
     }
+
     public Vector3 GetPlayerScreenPosition()
     {
         Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
