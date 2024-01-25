@@ -6,7 +6,7 @@ public class PlayerVisual : MonoBehaviour
 {
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private const string IS_RUNNING = "IsRunning";
+    private const string IS_WALKING = "IsWalking";
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -14,7 +14,7 @@ public class PlayerVisual : MonoBehaviour
     }
     private void Update()
     {
-        animator.SetBool(IS_RUNNING, Player.Instance.IsRunning());
+        animator.SetBool(IS_WALKING, Player.Instance.IsWalking());
         AdjustPlayerFacingDirection();
     }
     private void AdjustPlayerFacingDirection()

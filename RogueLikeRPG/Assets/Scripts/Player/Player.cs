@@ -9,33 +9,36 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float movingSpeed = 5f;
     private float minMovingSpeed = 0.1f;
-    private bool isRunning = false;
+    private bool isWalking = false;
+    Vector2 inputVector;
 
     private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
     }
-
+    private void Update()
+    {
+        inputVector = GameInput.Instance.GetMovementVector();
+    }
     private void FixedUpdate()
     {
         HandleMovement();
     }
     private void HandleMovement()
     {
-        Vector2 inputVector = GameInput.Instance.GetMovementVector();
         rb.MovePosition(rb.position + inputVector * (movingSpeed * Time.fixedDeltaTime));
         if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
         {
-            isRunning = true;
+            isWalking = true;
         } else
         {
-            isRunning = false;
+            isWalking = false;
         }
     }
-    public bool IsRunning()
+    public bool IsWalking()
     {
-        return isRunning;
+        return isWalking;
     }
     public Vector3 GetPlayerScreenPosition()
     {
