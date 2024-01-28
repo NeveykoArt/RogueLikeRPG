@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,20 +7,28 @@ using Game.Utils;
 
 public class EnemyAI : MonoBehaviour
 {
+    public EnemyVisual enemyVisual;
+
     [SerializeField] private State startingState;
-    [SerializeField] private float roamingDistanceMax = 7f;
+    [SerializeField] private float roamingDistanceMax = 5f;
     [SerializeField] private float roamingDistanceMin = 3f;
-    [SerializeField] private float roamingTimerMax = 2f;
+
+    [SerializeField] private float roamingTimerMax = 5f;
+    private float roamingTime = 10f;
+    [SerializeField] private float idleTimerMax = 5f;
+    private float idleTime = 5f;
 
     private NavMeshAgent navMeshAgent;
     private State commonState;
-    private float roamingTime;
     private Vector3 roamingPosition;
     private Vector3 startingPosition;
 
     private enum State
     {
-        Roaming
+        Idle,
+        Roaming,
+        Attack,
+        Dead
     }
 
     private void Awake()
@@ -35,12 +44,23 @@ public class EnemyAI : MonoBehaviour
         switch (commonState)
         {
             default:
+            case State.Idle:
+                idleTime -= Time.deltaTime;
+                if (idleTime < 0)
+                {
+                    idleTime = idleTimerMax;
+                    enemyVisual.SetRoamingAnimation(true);
+                    Roaming();
+                    commonState = State.Roaming;
+                }
+                break;
             case State.Roaming:
                 roamingTime -= Time.deltaTime;
-                if (roamingTime < 0)
+                if (transform.position == roamingPosition || roamingTime < 0)
                 {
-                    Roaming();
                     roamingTime = roamingTimerMax;
+                    enemyVisual.SetRoamingAnimation(false);
+                    commonState = State.Idle;
                 }
                 break;
         }
