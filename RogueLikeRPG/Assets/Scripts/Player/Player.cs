@@ -1,21 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
+    public PlayerVisual playerVisual;
 
     private Rigidbody2D rb;
     [SerializeField] private float movingSpeed = 5f;
     private float minMovingSpeed = 0.1f;
     private bool isWalking = false;
-    Vector2 inputVector;
+    private Vector2 inputVector;
+
+    private int damage = 10;
+    public Transform attackPoint;
+    public float attackRange = 2f;
+    public float attackRate = 2f;
+    private float nextAttackTime = 0f;
+    public LayerMask enemyLayers;
 
     private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
+    }
+
+    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
+    {
+        if (Time.time >= nextAttackTime)
+        {
+            playerVisual.SetCombatAnimation();
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemy.GetComponent<EnemyAI>().TakeDamage(damage);
+            }
+            nextAttackTime = Time.time + 2f / attackRate;
+        }
     }
 
     private void Update()
@@ -49,5 +77,12 @@ public class Player : MonoBehaviour
     {
         Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         return playerScreenPosition;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

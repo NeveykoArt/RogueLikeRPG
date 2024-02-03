@@ -3,21 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Game.Utils;
+using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
     public EnemyVisual enemyVisual;
 
-    [SerializeField] private State startingState;
-    [SerializeField] private float roamingDistanceMax = 5f;
-    [SerializeField] private float roamingDistanceMin = 3f;
+    public GameObject enemyCanvas;
+    public Slider enemySlider;
+    public TextMeshProUGUI enemyText;
+    public GameObject shadow;
 
-    [SerializeField] private float roamingTimerMax = 5f;
+    private int health = 100;
+    private int currentHealth;
+    private int damage = 10;
+
+    private float roamingDistanceMax = 5f;
+    private float roamingDistanceMin = 3f;
+
+    private float roamingTimerMax = 5f;
     private float roamingTime = 10f;
-    [SerializeField] private float idleTimerMax = 5f;
+    private float idleTimerMax = 5f;
     private float idleTime = 5f;
 
+    private State startingState;
     private NavMeshAgent navMeshAgent;
     private State commonState;
     private Vector3 roamingPosition;
@@ -27,7 +38,6 @@ public class EnemyAI : MonoBehaviour
     {
         Idle,
         Roaming,
-        Attack,
         Dead
     }
 
@@ -39,7 +49,12 @@ public class EnemyAI : MonoBehaviour
         commonState = startingState;
     }
 
-    private void Update()
+    private void Start()
+    {
+        currentHealth = health;
+    }
+
+    private void FixedUpdate()
     {
         switch (commonState)
         {
@@ -63,7 +78,34 @@ public class EnemyAI : MonoBehaviour
                     commonState = State.Idle;
                 }
                 break;
+            case State.Dead:
+                navMeshAgent.enabled = false;
+                GetComponent<Collider2D>().enabled = false;
+                this.enabled = false;
+                break;
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        enemyCanvas.SetActive(true);
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth , 0, health);
+        enemySlider.value = currentHealth;
+        enemyText.text = currentHealth.ToString() + " / 100";
+
+        if (currentHealth <= 0)
+        {
+            enemyCanvas.SetActive(false);
+            shadow.SetActive(false);
+            Die();
+            commonState = State.Dead;
+        }
+    }
+
+    public void Die()
+    {
+        enemyVisual.SetDeadAnimation();
     }
 
     private void Roaming()
@@ -83,10 +125,10 @@ public class EnemyAI : MonoBehaviour
     {
         if (sourcePosition.x > targetPosition.x)
         {
-            transform.rotation = Quaternion.Euler(0, -180, 0);
+            enemyVisual.ChangeFasing(Quaternion.Euler(0, -180, 0));
         } else
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            enemyVisual.ChangeFasing(Quaternion.Euler(0, 0, 0));
         }
     }
 }

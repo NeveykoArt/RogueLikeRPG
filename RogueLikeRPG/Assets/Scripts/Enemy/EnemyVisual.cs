@@ -7,7 +7,7 @@ public class EnemyVisual : MonoBehaviour
     private Animator EnemyAnimator;
 
     private const string IS_ROAMING = "IsRoaming";
-    private const string IS_ATTACKING = "IsAttacking";
+    private const string ATTACK = "Attack";
     private const string IS_DEAD = "IsDead";
 
     private void Awake()
@@ -18,12 +18,16 @@ public class EnemyVisual : MonoBehaviour
     {
         EnemyAnimator.SetBool(IS_ROAMING, isRoaming);
     }
-    public void SetAttackingAnimation(bool isAttacking)
+    public void SetAttackingAnimation()
     {
-        EnemyAnimator.SetBool(IS_ATTACKING, isAttacking);
+        EnemyAnimator.SetTrigger(ATTACK);
     }
-    public void SetDeadAnimation(bool isDead)
+    public void SetDeadAnimation()
     {
-        EnemyAnimator.SetBool(IS_DEAD, isDead);
+        EnemyAnimator.SetBool(IS_DEAD, true);
+    }
+    public void ChangeFasing(Quaternion rotation)
+    {
+        transform.rotation = rotation;
     }
 }

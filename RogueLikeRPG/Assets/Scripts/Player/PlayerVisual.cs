@@ -10,19 +10,20 @@ public class PlayerVisual : MonoBehaviour
     private const string IS_WALKING = "IsWalking";
     private const string ATTACK = "Attack";
 
+    public Transform attackPoint;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     private void Update()
     {
         animator.SetBool(IS_WALKING, Player.Instance.IsWalking());
         AdjustPlayerFacingDirection();
-        GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
     }
 
-    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
+    public void SetCombatAnimation()
     {
         animator.SetTrigger(ATTACK);
     }
@@ -33,11 +34,11 @@ public class PlayerVisual : MonoBehaviour
         Vector3 playerPos = Player.Instance.GetPlayerScreenPosition();
         if (mousePos.x > playerPos.x)
         {
-            spriteRenderer.flipX = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else
         {
-            spriteRenderer.flipX = true;
+            transform.rotation = Quaternion.Euler(0, -180, 0);
         }
     }
 }
