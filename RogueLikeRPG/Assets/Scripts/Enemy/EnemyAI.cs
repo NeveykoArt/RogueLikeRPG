@@ -18,7 +18,12 @@ public class EnemyAI : MonoBehaviour
 
     private int health = 100;
     private int currentHealth;
+
     private int damage = 10;
+    public Transform attackPoint;
+    public float attackRange = 2f;
+    private float nextAttackTime = 0f;
+    public LayerMask playerLayer;
 
     private float roamingDistanceMax = 5f;
     private float roamingDistanceMin = 3f;
@@ -38,7 +43,8 @@ public class EnemyAI : MonoBehaviour
     {
         Idle,
         Roaming,
-        Dead
+        Dead,
+        Attack
     }
 
     private void Awake()
@@ -56,6 +62,14 @@ public class EnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        var player = Player.Instance.transform;
+        if (Vector3.Distance(player.position, transform.position) < 10f)
+        {
+            enemyVisual.SetRoamingAnimation(true);
+            ChangeFacingDirection(transform.position, player.position);
+            navMeshAgent.SetDestination(player.position);
+            commonState = State.Attack;
+        }
         switch (commonState)
         {
             default:
@@ -81,31 +95,51 @@ public class EnemyAI : MonoBehaviour
             case State.Dead:
                 navMeshAgent.enabled = false;
                 GetComponent<Collider2D>().enabled = false;
-                this.enabled = false;
+                enabled = false;
+                break;
+            case State.Attack:
+                if (Vector3.Distance(player.position, transform.position) <= 3f && Time.time >= nextAttackTime)
+                {
+                    enemyVisual.SetRoamingAnimation(false);
+                    string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, 4).ToString();
+                    enemyVisual.SetAttackingAnimation(attack);
+                    Attack();
+                    nextAttackTime = Time.time + 1.25f;
+                }
                 break;
         }
     }
 
     public void TakeDamage(int damage)
     {
-        enemyCanvas.SetActive(true);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth , 0, health);
+
+        enemyCanvas.SetActive(true);
         enemySlider.value = currentHealth;
-        enemyText.text = currentHealth.ToString() + " / 100";
+        enemyText.text = currentHealth.ToString() + " / " + health.ToString();
 
         if (currentHealth <= 0)
         {
+            commonState = State.Dead;
             enemyCanvas.SetActive(false);
             shadow.SetActive(false);
             Die();
-            commonState = State.Dead;
         }
     }
 
     public void Die()
     {
         enemyVisual.SetDeadAnimation();
+    }
+
+    public void Attack()
+    {
+        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
+        if (hitPlayer != null)
+        {
+            Player.Instance.TakeDamage(damage);
+        }
     }
 
     private void Roaming()
@@ -130,5 +164,12 @@ public class EnemyAI : MonoBehaviour
         {
             enemyVisual.ChangeFasing(Quaternion.Euler(0, 0, 0));
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

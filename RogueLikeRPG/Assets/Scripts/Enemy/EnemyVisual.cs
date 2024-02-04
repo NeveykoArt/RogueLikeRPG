@@ -7,7 +7,6 @@ public class EnemyVisual : MonoBehaviour
     private Animator EnemyAnimator;
 
     private const string IS_ROAMING = "IsRoaming";
-    private const string ATTACK = "Attack";
     private const string IS_DEAD = "IsDead";
 
     private void Awake()
@@ -18,9 +17,9 @@ public class EnemyVisual : MonoBehaviour
     {
         EnemyAnimator.SetBool(IS_ROAMING, isRoaming);
     }
-    public void SetAttackingAnimation()
+    public void SetAttackingAnimation(string animation)
     {
-        EnemyAnimator.SetTrigger(ATTACK);
+        EnemyAnimator.Play(animation);
     }
     public void SetDeadAnimation()
     {

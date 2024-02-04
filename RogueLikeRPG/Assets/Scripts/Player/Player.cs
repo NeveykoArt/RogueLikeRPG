@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -14,10 +15,13 @@ public class Player : MonoBehaviour
     private bool isWalking = false;
     private Vector2 inputVector;
 
+    private int health = 150;
+    private int currentHealth;
+
     private int damage = 10;
     public Transform attackPoint;
     public float attackRange = 2f;
-    public float attackRate = 2f;
+    public float attackRate = 1f;
     private float nextAttackTime = 0f;
     public LayerMask enemyLayers;
 
@@ -30,6 +34,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
+        currentHealth = health;
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
@@ -42,8 +47,24 @@ public class Player : MonoBehaviour
             {
                 enemy.GetComponent<EnemyAI>().TakeDamage(damage);
             }
-            nextAttackTime = Time.time + 2f / attackRate;
+            nextAttackTime = Time.time + 1.25f / attackRate;
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, health);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        playerVisual.SetDieAnimation();
     }
 
     private void Update()

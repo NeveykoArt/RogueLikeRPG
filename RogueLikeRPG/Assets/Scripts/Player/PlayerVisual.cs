@@ -8,6 +8,7 @@ public class PlayerVisual : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private const string IS_WALKING = "IsWalking";
+    private const string IS_DEAD = "IsDead";
     private const string ATTACK = "Attack";
 
     public Transform attackPoint;
@@ -26,6 +27,11 @@ public class PlayerVisual : MonoBehaviour
     public void SetCombatAnimation()
     {
         animator.SetTrigger(ATTACK);
+    }
+
+    public void SetDieAnimation()
+    {
+        animator.SetBool(IS_DEAD, true);
     }
 
     private void AdjustPlayerFacingDirection()

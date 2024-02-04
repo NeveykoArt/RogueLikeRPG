@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 24938344}
   - component: {fileID: 24938343}
   - component: {fileID: 24938345}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PlayerVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 245617184}
   - component: {fileID: 245617183}
   - component: {fileID: 245617185}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ Transform:
   m_GameObject: {fileID: 245617180}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.32, y: 1.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -756,7 +756,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1117436444}
-  m_Layer: 0
+  - component: {fileID: 1117436445}
+  m_Layer: 3
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,6 +779,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 24938342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1117436445
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117436443}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.02324307, y: -0.26729542}
+  serializedVersion: 2
+  m_Radius: 0.9648616
 --- !u!1 &1224874208
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,81 +928,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 867639754050592920, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335058608976403893, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335058608976403893, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335058608976403893, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2335058608976403893, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2466138528154750171, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
       propertyPath: m_Name
       value: SkeletonWarrior
       objectReference: {fileID: 0}
-    - target: {fileID: 2717016574091424608, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3078714775331560105, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3722728046764264867, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3722728046764264867, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3722728046764264867, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3752843191559003413, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3752843191559003413, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357233316566139366, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5872164149284087694, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_BodyType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7181631460473283933, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7581568384487866374, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 4670463208654130091, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 245617183}
     - target: {fileID: 9017717622005949655, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.0586276
+      value: 8.7
       objectReference: {fileID: 0}
     - target: {fileID: 9017717622005949655, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.12079471
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 9017717622005949655, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1318,7 +1294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789603778}
   - component: {fileID: 1789603779}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PlayerShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
