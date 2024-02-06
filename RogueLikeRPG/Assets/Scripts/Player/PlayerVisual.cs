@@ -34,6 +34,11 @@ public class PlayerVisual : MonoBehaviour
         animator.SetBool(IS_DEAD, true);
     }
 
+    public void SetHurtAnimation()
+    {
+        animator.Play("Hurt");
+    }
+
     private void AdjustPlayerFacingDirection()
     {
         Vector3 mousePos = GameInput.Instance.GetMousePosition();

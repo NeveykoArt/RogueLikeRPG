@@ -10,6 +10,7 @@ using TMPro;
 public class EnemyAI : MonoBehaviour
 {
     public EnemyVisual enemyVisual;
+    public EnemyAttack enemyAttack;
 
     public GameObject enemyCanvas;
     public Slider enemySlider;
@@ -19,135 +20,124 @@ public class EnemyAI : MonoBehaviour
     private int health = 100;
     private int currentHealth;
 
-    private int damage = 10;
-    public Transform attackPoint;
-    public float attackRange = 2f;
+    private Transform player;
     private float nextAttackTime = 0f;
-    public LayerMask playerLayer;
+    private float agroDistanceMax = 10f;
+    private float agroDistanceMin = 1.5f;
 
-    private float roamingDistanceMax = 5f;
-    private float roamingDistanceMin = 3f;
+    private float roamingDistanceMax = 4f;
+    private float roamingDistanceMin = 2f;
 
-    private float roamingTimerMax = 5f;
+    private float roamingTimerMax = 10f;
     private float roamingTime = 10f;
-    private float idleTimerMax = 5f;
-    private float idleTime = 5f;
+    private float idleTimerMax = 15f;
+    private float idleTime = 15f;
+    private bool idleFlag = true;
 
-    private State startingState;
     private NavMeshAgent navMeshAgent;
-    private State commonState;
     private Vector3 roamingPosition;
     private Vector3 startingPosition;
-
-    private enum State
-    {
-        Idle,
-        Roaming,
-        Dead,
-        Attack
-    }
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
-        commonState = startingState;
     }
 
     private void Start()
     {
         currentHealth = health;
+        player = Player.Instance.transform;
+        startingPosition = transform.position;
+        enemySlider.maxValue = health;
     }
 
     private void FixedUpdate()
     {
-        var player = Player.Instance.transform;
-        if (Vector3.Distance(player.position, transform.position) < 10f)
+        if (Vector3.Distance(player.position, transform.position) < agroDistanceMax 
+            && Vector3.Distance(player.position, transform.position) > agroDistanceMin)
         {
-            enemyVisual.SetRoamingAnimation(true);
-            ChangeFacingDirection(transform.position, player.position);
-            navMeshAgent.SetDestination(player.position);
-            commonState = State.Attack;
-        }
-        switch (commonState)
+            enemyVisual.SetRunningAnimation(true);
+            SetDestination(player.position);
+        } else if (Vector3.Distance(player.position, transform.position) <= agroDistanceMin)
         {
-            default:
-            case State.Idle:
+            enemyVisual.SetRunningAnimation(false);
+            navMeshAgent.SetDestination(transform.position);
+            if (Time.time >= nextAttackTime)
+            {
+                string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, 4).ToString();
+                enemyVisual.SetAnimation(attack);
+                nextAttackTime = Time.time + 1.25f;
+            }
+        } else
+        {
+            if (idleFlag)
+            {
                 idleTime -= Time.deltaTime;
                 if (idleTime < 0)
                 {
                     idleTime = idleTimerMax;
                     enemyVisual.SetRoamingAnimation(true);
-                    Roaming();
-                    commonState = State.Roaming;
+                    SetDestination(GetRoamingPosition());
+                    idleFlag = false;
                 }
-                break;
-            case State.Roaming:
+            } else
+            {
                 roamingTime -= Time.deltaTime;
                 if (transform.position == roamingPosition || roamingTime < 0)
                 {
                     roamingTime = roamingTimerMax;
                     enemyVisual.SetRoamingAnimation(false);
-                    commonState = State.Idle;
+                    idleFlag = true;
                 }
-                break;
-            case State.Dead:
-                navMeshAgent.enabled = false;
-                GetComponent<Collider2D>().enabled = false;
-                enabled = false;
-                break;
-            case State.Attack:
-                if (Vector3.Distance(player.position, transform.position) <= 3f && Time.time >= nextAttackTime)
-                {
-                    enemyVisual.SetRoamingAnimation(false);
-                    string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, 4).ToString();
-                    enemyVisual.SetAttackingAnimation(attack);
-                    Attack();
-                    nextAttackTime = Time.time + 1.25f;
-                }
-                break;
+            }
         }
     }
 
-    public void TakeDamage(int damage)
+    public void EnemyHealthBarUpdate()
+    {
+        if (enemyCanvas.activeSelf == false)
+        {
+            enemyCanvas.SetActive(true);
+        }
+        enemySlider.value = currentHealth;
+        enemyText.text = currentHealth.ToString() + " / " + health.ToString();
+    }
+
+    public void EnemyTakeDamage(int damage)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth , 0, health);
 
-        enemyCanvas.SetActive(true);
-        enemySlider.value = currentHealth;
-        enemyText.text = currentHealth.ToString() + " / " + health.ToString();
+        string hurt = gameObject.tag.ToString() + "Hurt";
+        enemyVisual.SetAnimation(hurt);
+
+        EnemyHealthBarUpdate();
 
         if (currentHealth <= 0)
         {
-            commonState = State.Dead;
             enemyCanvas.SetActive(false);
-            shadow.SetActive(false);
-            Die();
+            EnemyDie();
         }
     }
 
-    public void Die()
+    public void EnemyDie()
     {
+        enemyAttack.enabled = false;
         enemyVisual.SetDeadAnimation();
+        navMeshAgent.enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        enabled = false;
     }
 
-    public void Attack()
-    {
-        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
-        if (hitPlayer != null)
-        {
-            Player.Instance.TakeDamage(damage);
-        }
-    }
-
-    private void Roaming()
+    private void SetDestination(Vector3 position)
     {
         startingPosition = transform.position;
-        roamingPosition = GetRoamingPosition();
+        roamingPosition = position;
         ChangeFacingDirection(startingPosition, roamingPosition);
         navMeshAgent.SetDestination(roamingPosition);
+        startingPosition = transform.position;
     }
 
     private Vector3 GetRoamingPosition()
@@ -164,12 +154,5 @@ public class EnemyAI : MonoBehaviour
         {
             enemyVisual.ChangeFasing(Quaternion.Euler(0, 0, 0));
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

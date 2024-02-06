@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +19,13 @@ public class Player : MonoBehaviour
     private int health = 150;
     private int currentHealth;
 
-    private int damage = 10;
+    private int damage = 20;
     public Transform attackPoint;
     public float attackRange = 2f;
-    public float attackRate = 1f;
     private float nextAttackTime = 0f;
     public LayerMask enemyLayers;
+
+    public Slider playerSlider;
 
     private void Awake()
     {
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
     {
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
         currentHealth = health;
+        playerSlider.maxValue = health;
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
@@ -45,9 +48,9 @@ public class Player : MonoBehaviour
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
             foreach (Collider2D enemy in hitEnemies)
             {
-                enemy.GetComponent<EnemyAI>().TakeDamage(damage);
+                enemy.GetComponent<EnemyAI>().EnemyTakeDamage(damage);
             }
-            nextAttackTime = Time.time + 1.25f / attackRate;
+            nextAttackTime = Time.time + 1.25f;
         }
     }
 
@@ -55,6 +58,9 @@ public class Player : MonoBehaviour
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, health);
+        playerVisual.SetHurtAnimation();
+
+        playerSlider.value = currentHealth;
 
         if (currentHealth <= 0)
         {
@@ -65,6 +71,8 @@ public class Player : MonoBehaviour
     public void Die()
     {
         playerVisual.SetDieAnimation();
+        GetComponent<Collider2D>().enabled = false;
+        enabled = false;
     }
 
     private void Update()
