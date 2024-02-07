@@ -6,16 +6,13 @@ using UnityEngine;
 public class PlayerVisual : MonoBehaviour
 {
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
     private const string IS_WALKING = "IsWalking";
     private const string IS_DEAD = "IsDead";
-    private const string ATTACK = "Attack";
 
     public Transform attackPoint;
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -24,9 +21,9 @@ public class PlayerVisual : MonoBehaviour
         AdjustPlayerFacingDirection();
     }
 
-    public void SetCombatAnimation()
+    public void SetCombatAnimation(string animation)
     {
-        animator.SetTrigger(ATTACK);
+        animator.Play(animation);
     }
 
     public void SetDieAnimation()

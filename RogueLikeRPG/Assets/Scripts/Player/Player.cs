@@ -19,12 +19,7 @@ public class Player : MonoBehaviour
     private int health = 150;
     private int currentHealth;
 
-    private int damage = 20;
-    public Transform attackPoint;
-    public float attackRange = 2f;
     private float nextAttackTime = 0f;
-    public LayerMask enemyLayers;
-
     public Slider playerSlider;
 
     private void Awake()
@@ -44,13 +39,9 @@ public class Player : MonoBehaviour
     {
         if (Time.time >= nextAttackTime)
         {
-            playerVisual.SetCombatAnimation();
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                enemy.GetComponent<EnemyAI>().EnemyTakeDamage(damage);
-            }
-            nextAttackTime = Time.time + 1.25f;
+            string attack = "Attack" + UnityEngine.Random.Range(1, 4).ToString();
+            playerVisual.SetCombatAnimation(attack);
+            nextAttackTime = Time.time + 1f;
         }
     }
 
@@ -106,12 +97,5 @@ public class Player : MonoBehaviour
     {
         Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(transform.position);
         return playerScreenPosition;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

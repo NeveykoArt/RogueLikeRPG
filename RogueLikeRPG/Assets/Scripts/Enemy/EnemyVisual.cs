@@ -22,6 +22,10 @@ public class EnemyVisual : MonoBehaviour
     {
         EnemyAnimator.Play(animation);
     }
+    public void StopAnimation()
+    {
+        enabled = false;
+    }
     public void SetRunningAnimation(bool isRunning)
     {
         EnemyAnimator.SetBool(IS_RUNNING, isRunning);

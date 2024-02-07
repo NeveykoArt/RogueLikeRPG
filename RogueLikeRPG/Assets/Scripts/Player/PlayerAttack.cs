@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
-    private int damage = 10;
+    private int damage = 20;
     public Transform attackPoint;
     public float attackRange = 2f;
-    public LayerMask playerLayer;
+    public LayerMask enemyLayers;
 
     public void Attack()
     {
-        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
-        if (hitPlayer != null)
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        foreach (Collider2D enemy in hitEnemies)
         {
-            hitPlayer.GetComponent<Player>().TakeDamage(damage);
+            enemy.GetComponent<EnemyAI>().EnemyTakeDamage(damage);
         }
     }
 
