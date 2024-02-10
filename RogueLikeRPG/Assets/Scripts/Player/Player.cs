@@ -11,16 +11,13 @@ public class Player : MonoBehaviour
     public PlayerVisual playerVisual;
 
     private Rigidbody2D rb;
-    [SerializeField] private float movingSpeed = 5f;
     private float minMovingSpeed = 0.1f;
-    private bool isWalking = false;
+    public bool isWalking { get; private set; } = false;
     private Vector2 inputVector;
 
-    private int health = 150;
-    private int currentHealth;
+    public float nextAttack = 0f;
 
-    private float nextAttackTime = 0f;
-    public Slider playerSlider;
+    public Slider playerHealthBar;
 
     private void Awake()
     {
@@ -31,29 +28,28 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
-        currentHealth = health;
-        playerSlider.maxValue = health;
+        playerHealthBar.maxValue = PlayerStats.Instance.health;
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
     {
-        if (Time.time >= nextAttackTime)
+        if (nextAttack <= Time.time)
         {
             string attack = "Attack" + UnityEngine.Random.Range(1, 4).ToString();
-            playerVisual.SetCombatAnimation(attack);
-            nextAttackTime = Time.time + 1f;
+            playerVisual.SetAnimation(attack);
+            nextAttack = Time.time + 1f;
         }
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, health);
-        playerVisual.SetHurtAnimation();
+        PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
+        PlayerStats.Instance.currentHealth = Mathf.Clamp(PlayerStats.Instance.currentHealth, 0, PlayerStats.Instance.health);
+        playerVisual.SetAnimation("Hurt");
 
-        playerSlider.value = currentHealth;
+        playerHealthBar.value = PlayerStats.Instance.currentHealth;
 
-        if (currentHealth <= 0)
+        if (PlayerStats.Instance.currentHealth <= 0)
         {
             Die();
         }
@@ -74,11 +70,12 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         HandleMovement();
+        PlayerStats.Instance.UpdateActiveStats();
     }
 
     private void HandleMovement()
     {
-        rb.MovePosition(rb.position + inputVector * (movingSpeed * Time.fixedDeltaTime));
+        rb.MovePosition(rb.position + inputVector * (PlayerStats.Instance.currentAgility * Time.fixedDeltaTime));
         if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
         {
             isWalking = true;
@@ -86,11 +83,6 @@ public class Player : MonoBehaviour
         {
             isWalking = false;
         }
-    }
-
-    public bool IsWalking()
-    {
-        return isWalking;
     }
 
     public Vector3 GetPlayerScreenPosition()

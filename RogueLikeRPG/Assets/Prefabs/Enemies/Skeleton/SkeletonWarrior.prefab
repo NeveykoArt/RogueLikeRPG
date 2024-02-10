@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41723929d570e3141a8184e06602e281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
   attackPoint: {fileID: 4763451733620933259}
   attackRange: 1
   playerLayer:
@@ -277,7 +278,15 @@ MonoBehaviour:
   enemyCanvas: {fileID: 7581568384487866374}
   enemySlider: {fileID: 4176058681524221913}
   enemyText: {fileID: 8475048509961497663}
-  shadow: {fileID: 4113352863730712543}
+  projectile: {fileID: 4776691994445864395, guid: 66c97bff145e582479b37afdb0f53d62, type: 3}
+  health: 100
+  agroRadius: 5
+  meleeRadius: 1.5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  nextAttack: 0
+  showGizmos: 0
 --- !u!1 &3776601873912002187
 GameObject:
   m_ObjectHideFlags: 0

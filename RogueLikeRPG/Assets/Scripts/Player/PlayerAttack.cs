@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private int damage = 20;
     public Transform attackPoint;
     public float attackRange = 2f;
     public LayerMask enemyLayers;
@@ -14,7 +13,7 @@ public class PlayerAttack : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<EnemyAI>().EnemyTakeDamage(damage);
+            enemy.GetComponent<EnemyAI>().EnemyTakeDamage(PlayerStats.Instance.currentDamage);
         }
     }
 

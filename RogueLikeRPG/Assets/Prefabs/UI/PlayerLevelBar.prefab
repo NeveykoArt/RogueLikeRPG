@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4192971901707443968}
   - component: {fileID: 1199521900737044578}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: LevelBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 150
   m_WholeNumbers: 0
-  m_Value: 150
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 7896962959723865284}
   - component: {fileID: 1570052792297301129}
   m_Layer: 0
-  m_Name: PlayerHealthBar
+  m_Name: PlayerLevelBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.0141509175, g: 0.90674955, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

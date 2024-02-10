@@ -17,11 +17,11 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
-        animator.SetBool(IS_WALKING, Player.Instance.IsWalking());
+        animator.SetBool(IS_WALKING, Player.Instance.isWalking);
         AdjustPlayerFacingDirection();
     }
 
-    public void SetCombatAnimation(string animation)
+    public void SetAnimation(string animation)
     {
         animator.Play(animation);
     }
@@ -29,11 +29,6 @@ public class PlayerVisual : MonoBehaviour
     public void SetDieAnimation()
     {
         animator.SetBool(IS_DEAD, true);
-    }
-
-    public void SetHurtAnimation()
-    {
-        animator.Play("Hurt");
     }
 
     private void AdjustPlayerFacingDirection()

@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -136,169 +136,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hero_Run_0
+      name: Hurt_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8e1940959ac71c40a4d1e84577c5c6f
-      internalID: 150553850
+      spriteID: 1eb83b08234dcf944a522687db06f91c
+      internalID: -1685639882
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Run_1
+      name: Hurt_1
       rect:
         serializedVersion: 2
-        x: 96
+        x: 128
         y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b728d05cc02c15342819418d6211d029
-      internalID: -346222665
+      spriteID: a962566655304cb449d4159fae58cc46
+      internalID: 354227177
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Run_2
+      name: Hurt_2
       rect:
         serializedVersion: 2
-        x: 192
+        x: 256
         y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5ef626b9c6e7e84bac07a7179a7365b
-      internalID: 1562805599
+      spriteID: 40a3619a557c293499aa0340d35e9eb2
+      internalID: -703503271
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Run_3
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6b3cce38720e9204384b5bd4cb44ffb6
-      internalID: -1476222158
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Hero_Run_4
+      name: Hurt_3
       rect:
         serializedVersion: 2
         x: 384
         y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73a96aa3e2b6ca94e8a4199603e0cc1c
-      internalID: 1749802195
+      spriteID: 11c15b33e1e65114c8d6609bcfc50a59
+      internalID: -1109023981
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Run_5
+      name: Hurt_4
       rect:
         serializedVersion: 2
-        x: 480
+        x: 512
         y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 725b12553c3ad0b46abb0e34663622c4
-      internalID: -1027444096
+      spriteID: 7c7b247fa2c33204fafa0aa66dc5e116
+      internalID: -76316804
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Run_6
+      name: Hurt_5
       rect:
         serializedVersion: 2
-        x: 576
+        x: 640
         y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 616494812c53721489516211079b8a88
-      internalID: 526616404
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Hero_Run_7
-      rect:
-        serializedVersion: 2
-        x: 672
-        y: 0
-        width: 96
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0481823ce0c59784e8c0c9b5665588f9
-      internalID: -774268802
+      spriteID: fc84dc865f9117b49a0d79ee9d24eb59
+      internalID: -333749070
       vertices: []
       indices: 
       edges: []
@@ -314,14 +272,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Hero_Run_0: 150553850
-      Hero_Run_1: -346222665
-      Hero_Run_2: 1562805599
-      Hero_Run_3: -1476222158
-      Hero_Run_4: 1749802195
-      Hero_Run_5: -1027444096
-      Hero_Run_6: 526616404
-      Hero_Run_7: -774268802
+      Hurt_0: -1685639882
+      Hurt_1: 354227177
+      Hurt_2: -703503271
+      Hurt_3: -1109023981
+      Hurt_4: -76316804
+      Hurt_5: -333749070
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
