@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     {
         PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
         PlayerStats.Instance.currentHealth = Mathf.Clamp(PlayerStats.Instance.currentHealth, 0, PlayerStats.Instance.health);
+
         playerVisual.SetAnimation("Hurt");
 
         playerHealthBar.value = PlayerStats.Instance.currentHealth;
@@ -69,7 +70,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleMovement();
+        if (!playerVisual.IsHurt()) {
+            HandleMovement();
+        }
         PlayerStats.Instance.UpdateActiveStats();
     }
 

@@ -38,11 +38,20 @@ public class EnemyAI : MonoBehaviour
 
     [Range(1, 10)] public float agroRadius;
     [Range(.1f, 3)] public float meleeRadius;
+    [Range(.1f, 3)] public float attackRadius;
+    public Transform attackPoint;
     public LayerMask playerLayer;
 
-    public float nextAttack = 0f;
+    private float nextAttack = 0f;
 
     public bool showGizmos;
+
+    public Status mobStatus = Status.Chasing;
+
+    public enum Status{
+        Chasing,
+        Shooting
+    }
 
     private void Awake()
     {
@@ -61,17 +70,80 @@ public class EnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var agroCollider = Physics2D.OverlapCircle(transform.position, agroRadius, playerLayer);
-        var meleeCollider = Physics2D.OverlapCircle(transform.position, meleeRadius, playerLayer);
-        if (agroCollider != null && meleeCollider == null)
+        if (!enemyVisual.IsHurt())
         {
-            enemyVisual.SetRunningAnimation(true);
-            SetDestination(player.position);
-            navMeshAgent.speed = 2.0f;
-        } else if (agroCollider != null && meleeCollider != null)
+            var agroCollider = Physics2D.OverlapCircle(transform.position, agroRadius, playerLayer);
+            if (agroCollider)
+            {
+                if (mobStatus == Status.Chasing)
+                {
+                    Chasing();
+                }
+            }
+            else
+            {
+                if (idleFlag)
+                {
+                    Idling();
+                }
+                else
+                {
+                    Roaming();
+                }
+            }
+        }
+    }
+
+    private void Idling()
+    {
+        navMeshAgent.ResetPath();
+        idleTime -= Time.deltaTime;
+        if (idleTime < 0)
         {
-            enemyVisual.SetRunningAnimation(false);
+            idleTime = idleTimerMax;
+            enemyVisual.SetRoamingAnimation(true);
             navMeshAgent.speed = 1.0f;
+            SetDestination(GetRoamingPosition());
+            idleFlag = false;
+        }
+    }
+
+    private void Roaming()
+    {
+        roamingTime -= Time.deltaTime;
+        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.2f || roamingTime < 0)
+        {
+            navMeshAgent.ResetPath();
+            roamingTime = roamingTimerMax;
+            enemyVisual.SetRoamingAnimation(false);
+            idleFlag = true;
+        }
+    }
+
+    private void Chasing()
+    {
+        var meleeCollider = Physics2D.OverlapCircle(transform.position, meleeRadius, playerLayer);
+        if (meleeCollider != null)
+        {
+            SetDestination(player.position);
+            enemyVisual.SetRunningAnimation(false);
+            navMeshAgent.speed = 1f;
+            DoAttack();
+        }
+        else
+        {
+            SetDestination(player.position);
+            enemyVisual.SetRoamingAnimation(false);
+            enemyVisual.SetRunningAnimation(true);
+            navMeshAgent.speed = 1.5f;
+        }
+    }
+
+    private void DoAttack()
+    {
+        var attackCollider = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
+        if (attackCollider != null)
+        {
             navMeshAgent.ResetPath();
             if (nextAttack <= Time.time)
             {
@@ -79,41 +151,6 @@ public class EnemyAI : MonoBehaviour
                 enemyVisual.SetAnimation(attack);
                 nextAttack = Time.time + 1.25f;
             }
-        } else if (agroCollider == null && meleeCollider == null)
-        {
-            navMeshAgent.speed = 1.0f;
-            if (idleFlag)
-            {
-                navMeshAgent.ResetPath();
-                idleTime -= Time.deltaTime;
-                if (idleTime < 0)
-                {
-                    idleTime = idleTimerMax;
-                    enemyVisual.SetRoamingAnimation(true);
-                    SetDestination(GetRoamingPosition());
-                    idleFlag = false;
-                }
-            }
-            else
-            {
-                roamingTime -= Time.deltaTime;
-                if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.1f || roamingTime < 0)
-                {
-                    navMeshAgent.ResetPath();
-                    roamingTime = roamingTimerMax;
-                    enemyVisual.SetRoamingAnimation(false);
-                    idleFlag = true;
-                }
-            }
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (showGizmos)
-        {
-            Gizmos.DrawSphere(transform.position, agroRadius);
-            Gizmos.DrawSphere(transform.position, meleeRadius);
         }
     }
 
@@ -133,7 +170,11 @@ public class EnemyAI : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth , 0, health);
 
         string hurt = gameObject.tag.ToString() + "Hurt";
+
+        enemyVisual.SetRoamingAnimation(false);
+        enemyVisual.SetRunningAnimation(false);
         enemyVisual.SetAnimation(hurt);
+        navMeshAgent.ResetPath();
 
         EnemyHealthBarUpdate();
 
@@ -175,6 +216,16 @@ public class EnemyAI : MonoBehaviour
         } else
         {
             enemyVisual.ChangeFasing(Quaternion.Euler(0, 0, 0));
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (showGizmos)
+        {
+            Gizmos.DrawSphere(transform.position, agroRadius);
+            Gizmos.DrawSphere(transform.position, meleeRadius);
+            Gizmos.DrawSphere(attackPoint.position, attackRadius);
         }
     }
 }

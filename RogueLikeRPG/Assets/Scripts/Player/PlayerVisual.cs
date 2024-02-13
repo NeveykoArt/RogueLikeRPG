@@ -10,6 +10,9 @@ public class PlayerVisual : MonoBehaviour
     private const string IS_DEAD = "IsDead";
 
     public Transform attackPoint;
+
+    private bool _isHurt = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -43,5 +46,20 @@ public class PlayerVisual : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, -180, 0);
         }
+    }
+
+    public bool IsHurt()
+    {
+        return _isHurt;
+    }
+
+    public void HurtOff()
+    {
+        _isHurt = false;
+    }
+
+    public void HurtOn()
+    {
+        _isHurt = true;
     }
 }
