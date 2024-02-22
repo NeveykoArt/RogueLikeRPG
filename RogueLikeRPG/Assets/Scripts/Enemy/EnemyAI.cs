@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
     private void Roaming()
     {
         roamingTime -= Time.deltaTime;
-        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.2f || roamingTime < 0)
+        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.1f || roamingTime < 0)
         {
             navMeshAgent.ResetPath();
             roamingTime = roamingTimerMax;
