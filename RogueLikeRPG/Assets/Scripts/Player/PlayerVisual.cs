@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerVisual : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class PlayerVisual : MonoBehaviour
 
     public void SetDieAnimation()
     {
+        GetComponent<ShadowCaster2D>().enabled = false;
         animator.SetBool(IS_DEAD, true);
     }
 

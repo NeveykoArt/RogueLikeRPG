@@ -26,11 +26,12 @@ public class EnemyAI : MonoBehaviour
     private float roamingDistanceMax = 3f;
     private float roamingDistanceMin = 1f;
 
-    private float roamingTimerMax = 10f;
-    private float roamingTime = 10f;
+    private float roamingTimerMax = 6f;
+    private float roamingTime = 6f;
     private float idleTimerMax = 5f;
     private float idleTime = 5f;
     private bool idleFlag = true;
+    private bool runFlag = false;
 
     private NavMeshAgent navMeshAgent;
     private Vector3 roamingPosition;
@@ -73,7 +74,7 @@ public class EnemyAI : MonoBehaviour
         if (!enemyVisual.IsHurt())
         {
             var agroCollider = Physics2D.OverlapCircle(transform.position, agroRadius, playerLayer);
-            if (agroCollider)
+            if (agroCollider != null)
             {
                 if (mobStatus == Status.Chasing)
                 {
@@ -82,6 +83,12 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
+                if (runFlag)
+                {
+                    navMeshAgent.ResetPath();
+                    runFlag = false;
+                    enemyVisual.SetRunningAnimation(runFlag);
+                }
                 if (idleFlag)
                 {
                     Idling();
@@ -111,7 +118,7 @@ public class EnemyAI : MonoBehaviour
     private void Roaming()
     {
         roamingTime -= Time.deltaTime;
-        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.1f || roamingTime < 0)
+        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.5f || roamingTime < 0)
         {
             navMeshAgent.ResetPath();
             roamingTime = roamingTimerMax;
@@ -125,8 +132,8 @@ public class EnemyAI : MonoBehaviour
         var meleeCollider = Physics2D.OverlapCircle(transform.position, meleeRadius, playerLayer);
         if (meleeCollider != null)
         {
-            SetDestination(player.position);
-            enemyVisual.SetRunningAnimation(false);
+            runFlag = false;
+            enemyVisual.SetRunningAnimation(runFlag);
             navMeshAgent.speed = 1f;
             DoAttack();
         }
@@ -134,7 +141,8 @@ public class EnemyAI : MonoBehaviour
         {
             SetDestination(player.position);
             enemyVisual.SetRoamingAnimation(false);
-            enemyVisual.SetRunningAnimation(true);
+            runFlag = true;
+            enemyVisual.SetRunningAnimation(runFlag);
             navMeshAgent.speed = 1.5f;
         }
     }
@@ -187,10 +195,11 @@ public class EnemyAI : MonoBehaviour
 
     public void EnemyDie()
     {
+        GetComponent<Collider2D>().enabled = false;
         enemyAttack.enabled = false;
         enemyVisual.SetDeadAnimation();
+        navMeshAgent.ResetPath();
         navMeshAgent.enabled = false;
-        GetComponent<Collider2D>().enabled = false;
         Instantiate(projectile, transform.position, Quaternion.identity);
         enabled = false;
     }

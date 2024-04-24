@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class EnemyVisual : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class EnemyVisual : MonoBehaviour
 
     public void SetDeadAnimation()
     {
+        GetComponent<ShadowCaster2D>().enabled = false;
         EnemyAnimator.SetBool(IS_DEAD, true);
     }
 
