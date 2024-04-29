@@ -9,10 +9,11 @@ public class PlayerVisual : MonoBehaviour
     private Animator animator;
     private const string IS_WALKING = "IsWalking";
     private const string IS_DEAD = "IsDead";
+    private const string IS_PROTECT = "IsProtect";
 
     public Transform attackPoint;
 
-    private bool _isHurt = false;
+    public bool _isHurt = false;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class PlayerVisual : MonoBehaviour
     private void Update()
     {
         animator.SetBool(IS_WALKING, Player.Instance.isWalking);
+        animator.SetBool(IS_PROTECT, Player.Instance.isProtect);
         AdjustPlayerFacingDirection();
     }
 
@@ -32,7 +34,6 @@ public class PlayerVisual : MonoBehaviour
 
     public void SetDieAnimation()
     {
-        GetComponent<ShadowCaster2D>().enabled = false;
         animator.SetBool(IS_DEAD, true);
     }
 
@@ -50,7 +51,7 @@ public class PlayerVisual : MonoBehaviour
         }
     }
 
-    public bool IsHurt()
+    public bool isHurt()
     {
         return _isHurt;
     }

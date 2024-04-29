@@ -162,6 +162,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Protect"",
+                    ""type"": ""Value"",
+                    ""id"": ""c89b5163-7c5d-4505-bbb4-b451be2f3a8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -173,6 +182,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e588df5-ef6b-4f61-a91c-4e4b74228d36"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Protect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -187,6 +207,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Combat
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Attack = m_Combat.FindAction("Attack", throwIfNotFound: true);
+        m_Combat_Protect = m_Combat.FindAction("Protect", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,11 +316,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Combat;
     private List<ICombatActions> m_CombatActionsCallbackInterfaces = new List<ICombatActions>();
     private readonly InputAction m_Combat_Attack;
+    private readonly InputAction m_Combat_Protect;
     public struct CombatActions
     {
         private @PlayerInputActions m_Wrapper;
         public CombatActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Attack => m_Wrapper.m_Combat_Attack;
+        public InputAction @Protect => m_Wrapper.m_Combat_Protect;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -312,6 +335,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Protect.started += instance.OnProtect;
+            @Protect.performed += instance.OnProtect;
+            @Protect.canceled += instance.OnProtect;
         }
 
         private void UnregisterCallbacks(ICombatActions instance)
@@ -319,6 +345,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Protect.started -= instance.OnProtect;
+            @Protect.performed -= instance.OnProtect;
+            @Protect.canceled -= instance.OnProtect;
         }
 
         public void RemoveCallbacks(ICombatActions instance)
@@ -343,5 +372,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface ICombatActions
     {
         void OnAttack(InputAction.CallbackContext context);
+        void OnProtect(InputAction.CallbackContext context);
     }
 }

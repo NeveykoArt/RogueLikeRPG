@@ -12,6 +12,8 @@ public class GameInput : MonoBehaviour
 
     public event EventHandler OnPlayerAttack;
 
+    public event EventHandler OnPlayerProtect;
+
     private void Awake()
     {
         Instance = this;
@@ -30,6 +32,11 @@ public class GameInput : MonoBehaviour
     {
         Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
         return inputVector;
+    }
+
+    public bool ProtectStatus()
+    {
+        return playerInputActions.Combat.Protect.IsPressed();
     }
 
     public Vector3 GetMousePosition()

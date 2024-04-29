@@ -132,6 +132,7 @@ public class EnemyAI : MonoBehaviour
         var meleeCollider = Physics2D.OverlapCircle(transform.position, meleeRadius, playerLayer);
         if (meleeCollider != null)
         {
+            navMeshAgent.ResetPath();
             runFlag = false;
             enemyVisual.SetRunningAnimation(runFlag);
             navMeshAgent.speed = 1f;
@@ -149,16 +150,11 @@ public class EnemyAI : MonoBehaviour
 
     private void DoAttack()
     {
-        var attackCollider = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
-        if (attackCollider != null)
+        if (nextAttack <= Time.time)
         {
-            navMeshAgent.ResetPath();
-            if (nextAttack <= Time.time)
-            {
-                string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, 4).ToString();
-                enemyVisual.SetAnimation(attack);
-                nextAttack = Time.time + 1.25f;
-            }
+            string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, 4).ToString();
+            enemyVisual.SetAnimation(attack);
+            nextAttack = Time.time + 1.25f;
         }
     }
 

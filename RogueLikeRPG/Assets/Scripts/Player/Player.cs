@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -12,7 +13,10 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
     private float minMovingSpeed = 0.1f;
+
     public bool isWalking { get; private set; } = false;
+    public bool isProtect { get; private set; } = false;
+
     private Vector2 inputVector;
 
     public float nextAttack = 0f;
@@ -43,22 +47,25 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
-        PlayerStats.Instance.currentHealth = Mathf.Clamp(PlayerStats.Instance.currentHealth, 0, PlayerStats.Instance.health);
+        if (!isProtect) {
+            PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
+            PlayerStats.Instance.currentHealth = Mathf.Clamp(PlayerStats.Instance.currentHealth, 0, PlayerStats.Instance.health);
 
-        playerVisual.SetAnimation("Hurt");
+            playerVisual.SetAnimation("Hurt");
 
-        playerHealthBar.value = PlayerStats.Instance.currentHealth;
+            playerHealthBar.value = PlayerStats.Instance.currentHealth;
 
-        if (PlayerStats.Instance.currentHealth <= 0)
-        {
-            Die();
+            if (PlayerStats.Instance.currentHealth <= 0)
+            {
+                Die();
+            }
         }
     }
 
     public void Die()
     {
         playerVisual.SetDieAnimation();
+        playerVisual.GetComponent<ShadowCaster2D>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
     }
@@ -70,8 +77,17 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!playerVisual.IsHurt()) {
-            HandleMovement();
+        if (!playerVisual.isHurt()) {
+            if (GameInput.Instance.ProtectStatus())
+            {
+                isWalking = false;
+                isProtect = true;
+            }
+            else
+            {
+                isProtect = false;
+                HandleMovement();
+            }
         }
         PlayerStats.Instance.UpdateActiveStats();
     }
@@ -82,9 +98,6 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
         {
             isWalking = true;
-        } else
-        {
-            isWalking = false;
         }
     }
 
