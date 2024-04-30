@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -26,8 +24,8 @@ public class EnemyAI : MonoBehaviour
     private float roamingDistanceMax = 3f;
     private float roamingDistanceMin = 1f;
 
-    private float roamingTimerMax = 6f;
-    private float roamingTime = 6f;
+    private float roamingTimerMax = 10f;
+    private float roamingTime = 10f;
     private float idleTimerMax = 5f;
     private float idleTime = 5f;
     private bool idleFlag = true;
@@ -39,8 +37,7 @@ public class EnemyAI : MonoBehaviour
 
     [Range(1, 10)] public float agroRadius;
     [Range(.1f, 3)] public float meleeRadius;
-    [Range(.1f, 3)] public float attackRadius;
-    public Transform attackPoint;
+    [Range(.1f, 3)] public float offset;
     public LayerMask playerLayer;
 
     private float nextAttack = 0f;
@@ -73,7 +70,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (!enemyVisual.IsHurt())
         {
-            var agroCollider = Physics2D.OverlapCircle(transform.position, agroRadius, playerLayer);
+            var agroCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), agroRadius, playerLayer);
             if (agroCollider != null)
             {
                 if (mobStatus == Status.Chasing)
@@ -129,7 +126,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Chasing()
     {
-        var meleeCollider = Physics2D.OverlapCircle(transform.position, meleeRadius, playerLayer);
+        var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
         if (meleeCollider != null)
         {
             navMeshAgent.ResetPath();
@@ -228,9 +225,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (showGizmos)
         {
-            Gizmos.DrawSphere(transform.position, agroRadius);
-            Gizmos.DrawSphere(transform.position, meleeRadius);
-            Gizmos.DrawSphere(attackPoint.position, attackRadius);
+            Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), agroRadius);
+            Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius);
         }
     }
 }

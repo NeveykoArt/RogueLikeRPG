@@ -98,6 +98,9 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
         {
             isWalking = true;
+        } else
+        {
+            isWalking = false;
         }
     }
 
