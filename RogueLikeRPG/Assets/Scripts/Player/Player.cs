@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
         playerVisual.SetDieAnimation();
         playerVisual.GetComponent<ShadowCaster2D>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
+        GameInput.Instance.OnPlayerAttack -= GameInput_OnPlayerAttack;
         enabled = false;
     }
 

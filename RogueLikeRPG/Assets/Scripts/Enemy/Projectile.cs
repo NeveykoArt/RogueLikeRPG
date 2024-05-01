@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        target = new Vector2(player.position.x, player.position.y);
+        target = new Vector2(player.position.x, player.position.y + 0.7f);
     }
 
     void Update()
@@ -28,9 +28,10 @@ public class Projectile : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
         }
-        if (transform.position == player.position)
+        if (transform.position == new Vector3(target.x, target.y))
         {
-            DestroyProjectile();
+            GetComponent<Collider2D>().enabled = false;
+            enabled = false;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -38,14 +39,11 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag("Player") && projectileType == State.xp)
         {
             LevelManager.Instance.IncreaseLevel(stat);
-            DestroyProjectile();
+            Destroy(gameObject);
         } else if (other.CompareTag("Player") && projectileType == State.arrow)
         {
             other.GetComponent<Player>().TakeDamage(stat);
+            Destroy(gameObject);
         }
-    }
-    private void DestroyProjectile()
-    {
-        Destroy(gameObject);
     }
 }

@@ -23,6 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     private float roamingDistanceMax = 3f;
     private float roamingDistanceMin = 1f;
+    public float archerStepDistance = 0.5f;
 
     private float roamingTimerMax = 10f;
     private float roamingTime = 10f;
@@ -30,6 +31,7 @@ public class EnemyAI : MonoBehaviour
     private float idleTime = 5f;
     private bool idleFlag = true;
     private bool runFlag = false;
+    private bool dodgeFlag = false;
 
     private NavMeshAgent navMeshAgent;
     private Vector3 roamingPosition;
@@ -41,10 +43,16 @@ public class EnemyAI : MonoBehaviour
     public LayerMask playerLayer;
 
     private float nextAttack = 0f;
+    private float nextShoot = 0f;
+    private float nextDodge = 0f;
 
     public bool showGizmos;
 
     public Status mobStatus = Status.Chasing;
+
+    [Range(2, 3)] public int attackCount = 3;
+
+    private Vector3 lastVector;
 
     public enum Status{
         Chasing,
@@ -76,6 +84,9 @@ public class EnemyAI : MonoBehaviour
                 if (mobStatus == Status.Chasing)
                 {
                     Chasing();
+                } else if (mobStatus == Status.Shooting)
+                {
+                    Shooting();
                 }
             }
             else
@@ -145,11 +156,64 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void Shooting()
+    {
+        var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
+        if (meleeCollider != null)
+        {
+            ChangeFacingDirection(transform.position, player.position);
+            DoAttack();
+        }
+        else
+        {
+            if (dodgeFlag)
+            {
+                Dodge();
+            } else
+            {
+                ChangeFacingDirection(transform.position, player.position);
+                DoShoot();
+            }
+        }
+    }
+
+    private void Dodge()
+    {
+        if (nextDodge <= Time.time)
+        {
+            navMeshAgent.speed = 3.0f;
+            if (GetArcherPosition() != transform.position)
+            {
+                SetDestination(GetArcherPosition()); //делает шаг назад/вперед после выстрела противоположно текущему щагу игрока
+            } else
+            {
+                SetDestination(transform.position + lastVector); //делает шаг назад/вперед после выстрела противоположно последнему щагу игрока
+            }
+            enemyVisual.SetAnimation(gameObject.tag.ToString() + "Dodge");
+            dodgeFlag = false;
+            nextDodge = Time.time + 2.65f;
+        }
+    }
+
+    private void DoShoot()
+    {
+        if (nextShoot <= Time.time)
+        {
+            string shooting = gameObject.tag.ToString() + "Shot" + UnityEngine.Random.Range(1, 3).ToString();
+            enemyVisual.SetAnimation(shooting);
+            nextShoot = Time.time + 1.30f;
+            if (nextDodge <= Time.time)
+            {
+                dodgeFlag = true;
+            }
+        }
+    }
+
     private void DoAttack()
     {
         if (nextAttack <= Time.time)
         {
-            string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, 4).ToString();
+            string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, attackCount).ToString();
             enemyVisual.SetAnimation(attack);
             nextAttack = Time.time + 1.25f;
         }
@@ -167,15 +231,15 @@ public class EnemyAI : MonoBehaviour
 
     public void EnemyTakeDamage(int damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth , 0, health);
-
-        string hurt = gameObject.tag.ToString() + "Hurt";
-
+        navMeshAgent.ResetPath();
         enemyVisual.SetRoamingAnimation(false);
         enemyVisual.SetRunningAnimation(false);
+
+        string hurt = gameObject.tag.ToString() + "Hurt";
         enemyVisual.SetAnimation(hurt);
-        navMeshAgent.ResetPath();
+
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth , 0, health);
 
         EnemyHealthBarUpdate();
 
@@ -207,7 +271,13 @@ public class EnemyAI : MonoBehaviour
 
     private Vector3 GetRoamingPosition()
     {
-        return startingPosition + Utils.GetRandomDir() * UnityEngine.Random.Range(roamingDistanceMin, roamingDistanceMax);
+        return transform.position + Utils.GetRandomDir() * UnityEngine.Random.Range(roamingDistanceMin, roamingDistanceMax);
+    }
+
+    private Vector3 GetArcherPosition()
+    {
+        lastVector = (new Vector3(GameInput.Instance.GetMovementVector().x, GameInput.Instance.GetMovementVector().y) * archerStepDistance);
+        return transform.position + (new Vector3(GameInput.Instance.GetMovementVector().x, GameInput.Instance.GetMovementVector().y) * archerStepDistance);
     }
 
     private void ChangeFacingDirection(Vector3 sourcePosition, Vector3 targetPosition)

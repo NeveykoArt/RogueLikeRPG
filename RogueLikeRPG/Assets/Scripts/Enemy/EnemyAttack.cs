@@ -8,6 +8,7 @@ public class EnemyAttack : MonoBehaviour
     public Transform attackPoint;
     public float attackRange = 2f;
     public LayerMask playerLayer;
+    public GameObject arrow;
 
     public void Attack()
     {
@@ -16,6 +17,11 @@ public class EnemyAttack : MonoBehaviour
         {
             hitPlayer.GetComponent<Player>().TakeDamage(damage);
         }
+    }
+
+    public void Shoot()
+    {
+        Instantiate(arrow, transform.position, Quaternion.identity);
     }
 
     private void OnDrawGizmosSelected()

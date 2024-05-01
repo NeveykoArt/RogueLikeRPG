@@ -135,7 +135,7 @@ MonoBehaviour:
   - {x: 0.14, y: 1.1, z: 0}
   m_ShapePathHash: 23853590
   m_Mesh: {fileID: 0}
-  m_InstanceId: 86954
+  m_InstanceId: 40304
   m_LocalBounds:
     m_Center: {x: -0.004000008, y: 0.8, z: 0}
     m_Extent: {x: 0.144, y: 0.3, z: 0}
@@ -318,6 +318,7 @@ MonoBehaviour:
     m_Bits: 64
   showGizmos: 0
   mobStatus: 0
+  attackCount: 2
 --- !u!1 &3776601873912002187
 GameObject:
   m_ObjectHideFlags: 0
