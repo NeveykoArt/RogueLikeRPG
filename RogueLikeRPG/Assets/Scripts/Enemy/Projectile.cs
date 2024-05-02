@@ -4,9 +4,11 @@ public class Projectile : MonoBehaviour
 {
     public float speed;
     private Transform player;
-    private Vector2 target;
+    private Vector3 target;
     [SerializeField] private State projectileType;
     public int stat;
+
+    private Vector3 direction;
 
     private enum State{
         xp,
@@ -16,7 +18,11 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        target = new Vector2(player.position.x, player.position.y + 0.7f);
+        target = new Vector3(player.position.x, player.position.y + 1);
+
+        direction = target - transform.position;
+        float rotation = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, rotation - 180);
     }
 
     void Update()

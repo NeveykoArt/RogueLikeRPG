@@ -21,7 +21,7 @@ public class EnemyAttack : MonoBehaviour
 
     public void Shoot()
     {
-        Instantiate(arrow, transform.position, Quaternion.identity);
+        Instantiate(arrow, new Vector3(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
     }
 
     private void OnDrawGizmosSelected()
