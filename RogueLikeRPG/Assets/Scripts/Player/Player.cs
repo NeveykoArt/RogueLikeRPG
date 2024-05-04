@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -21,8 +16,6 @@ public class Player : MonoBehaviour
 
     public float nextAttack = 0f;
 
-    public Slider playerHealthBar;
-
     private void Awake()
     {
         Instance = this;
@@ -32,43 +25,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
-        playerHealthBar.maxValue = PlayerStats.Instance.health;
-    }
-
-    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
-    {
-        if (nextAttack <= Time.time)
-        {
-            string attack = "Attack" + UnityEngine.Random.Range(1, 4).ToString();
-            playerVisual.SetAnimation(attack);
-            nextAttack = Time.time + 1f;
-        }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if (!isProtect) {
-            PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
-            PlayerStats.Instance.currentHealth = Mathf.Clamp(PlayerStats.Instance.currentHealth, 0, PlayerStats.Instance.health);
-
-            playerVisual.SetAnimation("Hurt");
-
-            playerHealthBar.value = PlayerStats.Instance.currentHealth;
-
-            if (PlayerStats.Instance.currentHealth <= 0)
-            {
-                Die();
-            }
-        }
-    }
-
-    public void Die()
-    {
-        playerVisual.SetDieAnimation();
-        playerVisual.GetComponent<ShadowCaster2D>().enabled = false;
-        GetComponent<Collider2D>().enabled = false;
-        GameInput.Instance.OnPlayerAttack -= GameInput_OnPlayerAttack;
-        enabled = false;
     }
 
     private void Update()
@@ -91,6 +47,44 @@ public class Player : MonoBehaviour
             }
         }
         PlayerStats.Instance.UpdateActiveStats();
+    }
+
+    private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
+    {
+        if (nextAttack <= Time.time)
+        {
+            string attack = "Attack" + UnityEngine.Random.Range(1, 4).ToString();
+            playerVisual.SetAnimation(attack);
+            nextAttack = Time.time + 1f;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (!isProtect) {
+            PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
+
+            playerVisual.SetAnimation("Hurt");
+
+            if (PlayerStats.Instance.currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+    }
+
+    public void Heal(int healnumber)
+    {
+        PlayerStats.Instance.currentHealth += healnumber;
+    }
+
+    public void Die()
+    {
+        playerVisual.SetDieAnimation();
+        playerVisual.GetComponent<ShadowCaster2D>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        GameInput.Instance.OnPlayerAttack -= GameInput_OnPlayerAttack;
+        enabled = false;
     }
 
     private void HandleMovement()

@@ -128,6 +128,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  arrow: {fileID: 0}
 --- !u!114 &7373615881811374995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +168,7 @@ MonoBehaviour:
   - {x: 0.8, y: 0, z: 0}
   m_ShapePathHash: -514028887
   m_Mesh: {fileID: 0}
-  m_InstanceId: 47528
+  m_InstanceId: 67054
   m_LocalBounds:
     m_Center: {x: 0, y: 0.5, z: 0}
     m_Extent: {x: 0.8, y: 0.5, z: 0}
@@ -220,8 +221,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 80
+  m_LinearDrag: 20
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -311,6 +312,7 @@ MonoBehaviour:
   enemyText: {fileID: 2773557963620503034}
   projectile: {fileID: 4776691994445864395, guid: 66c97bff145e582479b37afdb0f53d62, type: 3}
   health: 100
+  archerStepDistance: 0.5
   agroRadius: 6
   meleeRadius: 1.8
   offset: 0.5

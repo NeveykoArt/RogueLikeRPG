@@ -1,13 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; set; }
     public int health { get; set; } = 150;
-    public int currentHealth { get; set; }
+
+    private int _currentHealth;
+    public int currentHealth 
+    {
+        get => _currentHealth; 
+        set
+        {
+            _currentHealth = value;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, health); 
+        } 
+    }
     public int level { get; private set; } = 100;
     public int currentLevel { get; set; }
     public int damage { get; set; } = 20;

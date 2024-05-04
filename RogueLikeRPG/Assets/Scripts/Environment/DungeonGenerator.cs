@@ -1,5 +1,4 @@
 using NavMeshPlus.Components;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,14 +8,14 @@ public class DungeonGenerator : MonoBehaviour
     {
         public bool visited = false;
         public bool[] status = new bool[4];
-        public bool nextLevelStairs = false;
+        public List<int> blockagePosition = new List<int>(); // 0 - up, 1 - down, 2 - right, 3 - left
+        public int healstonePosition = 4; // 0 - up, 1 - down, 2 - right, 3 - left, 4 - none
+        public bool lastRoom = false;
     }
 
     public Vector2Int size;
     public int startPos = 0;
     public GameObject room;
-    public GameObject stairsRoom;
-    public GameObject bossRoom;
     public GameObject navMeshSurface;
     public Vector2 offset;
 
@@ -34,17 +33,20 @@ public class DungeonGenerator : MonoBehaviour
             for (int j = 0; j < size.y; j++)
             {
                 Cell currentCell = board[i + j * size.x];
+                //лабиринт с тупиками
+                /*
                 var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
                 newRoom.UpdateRoom(currentCell.status);
+                newRoom.SetBlockage(currentCell.blockagePosition);
                 newRoom.name += "_" + i + "-" + j;
-                /*
+                */
+                //лабиринт c минимумом тупиков
                 if (currentCell.visited)
                 {
                     var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
-                    newRoom.UpdateRoom(currentCell.status);
+                    newRoom.UpdateRoom(currentCell);
                     newRoom.name += "_" + i + "-" + j;
                 }
-                */
             }
         }
         navMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
@@ -74,12 +76,12 @@ public class DungeonGenerator : MonoBehaviour
 
             board[currentCell].visited = true;
 
-            /*
+            //лабиринт c минимумом тупиков
             if (currentCell == board.Count - 1)
             {
                 break;
             }
-            */
+            
 
             //проверяем соседей
             List<int> neighbors = CheckNeighbors(currentCell);
@@ -107,14 +109,18 @@ public class DungeonGenerator : MonoBehaviour
                     if (newCell - 1 == currentCell)
                     {
                         board[currentCell].status[2] = true;
+                        board[currentCell].blockagePosition.Add(2);
                         currentCell = newCell;
                         board[currentCell].status[3] = true;
+                        board[currentCell].healstonePosition = 3;
                     }
                     else
                     {
                         board[currentCell].status[1] = true;
+                        board[currentCell].blockagePosition.Add(1);
                         currentCell = newCell;
                         board[currentCell].status[0] = true;
+                        board[currentCell].healstonePosition = 0;
                     }
                 } 
                 else
@@ -123,19 +129,23 @@ public class DungeonGenerator : MonoBehaviour
                     if (newCell + 1 == currentCell)
                     {
                         board[currentCell].status[3] = true;
+                        board[currentCell].blockagePosition.Add(3);
                         currentCell = newCell;
                         board[currentCell].status[2] = true;
+                        board[currentCell].healstonePosition = 2;
                     }
                     else
                     {
                         board[currentCell].status[0] = true;
+                        board[currentCell].blockagePosition.Add(0);
                         currentCell = newCell;
                         board[currentCell].status[1] = true;
+                        board[currentCell].healstonePosition = 1;
                     }
                 }
             }
         }
-        board[currentCell].nextLevelStairs = true;
+        board[currentCell].lastRoom = true;
         GenerateDungeon();
     }
 
