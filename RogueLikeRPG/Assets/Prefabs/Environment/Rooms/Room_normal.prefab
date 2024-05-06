@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.25, y: -0.31, z: 0}
   m_ShapePathHash: 1814293079
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50582
+  m_InstanceId: 68494
   m_LocalBounds:
     m_Center: {x: 0.08, y: -0.128, z: 0}
     m_Extent: {x: 0.17, y: 0.182, z: 0}
@@ -978,7 +978,7 @@ MonoBehaviour:
   - {x: 0.9374256, y: -0.6181592, z: 0}
   m_ShapePathHash: 1677541853
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50614
+  m_InstanceId: 68526
   m_LocalBounds:
     m_Center: {x: -0.048817635, y: 0.3178497, z: 0}
     m_Extent: {x: 0.98624325, y: 0.9360089, z: 0}
@@ -2760,7 +2760,7 @@ MonoBehaviour:
   - {x: 1.0031586, y: 0.25899935, z: 0}
   m_ShapePathHash: -1636335283
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50752
+  m_InstanceId: 68664
   m_LocalBounds:
     m_Center: {x: 0.0007286072, y: 0.46463668, z: 0}
     m_Extent: {x: 1.00243, y: 0.20563734, z: 0}
@@ -4514,7 +4514,7 @@ MonoBehaviour:
   - {x: 0.90391827, y: -0.61907244, z: 0}
   m_ShapePathHash: -2147371683
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50796
+  m_InstanceId: 68708
   m_LocalBounds:
     m_Center: {x: -0.08197212, y: 0.31696123, z: 0}
     m_Extent: {x: 0.9858904, y: 0.93603367, z: 0}
@@ -4609,6 +4609,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.9829984, y: 0.46093655}
   m_EdgeRadius: 0
+--- !u!1 &4817064636055345538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7925930151389517256}
+  m_Layer: 0
+  m_Name: PlayerPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7925930151389517256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817064636055345538}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1, y: -0.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3628501827338090168}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5498228599660908816
 GameObject:
   m_ObjectHideFlags: 0
@@ -5246,7 +5277,7 @@ MonoBehaviour:
   - {x: 0.9114077, y: -0.705286, z: 0}
   m_ShapePathHash: 1301560273
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50900
+  m_InstanceId: 68814
   m_LocalBounds:
     m_Center: {x: 0.7887142, y: 0.2787025, z: 0}
     m_Extent: {x: 0.12269354, y: 0.9840028, z: 0}
@@ -5801,7 +5832,7 @@ MonoBehaviour:
   - {x: 0.86, y: 0.9, z: 0}
   m_ShapePathHash: -1369630509
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50588
+  m_InstanceId: 68500
   m_LocalBounds:
     m_Center: {x: 0.7012113, y: 1.085, z: 0}
     m_Extent: {x: 0.15878874, y: 0.185, z: 0}
@@ -5923,6 +5954,7 @@ Transform:
   - {fileID: 1391265388745011496}
   - {fileID: 2510776586973259893}
   - {fileID: 4030116574271630580}
+  - {fileID: 7925930151389517256}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &4346449262436935355
@@ -5977,6 +6009,7 @@ MonoBehaviour:
   blockageObject: {fileID: 9149509869975058156, guid: ec0b382403fa0474aaeecbcb638aeace, type: 3}
   healstoneObject: {fileID: 7705980326283301577, guid: a1d05d73fda226c498666eb322cb2b78, type: 3}
   portalObject: {fileID: 5542851965713280551, guid: 8faa796743a82654db752718b414b8d9, type: 3}
+  PlayerPosition: {fileID: 4817064636055345538}
 --- !u!1 &7347382547358242978
 GameObject:
   m_ObjectHideFlags: 0
@@ -6183,7 +6216,7 @@ MonoBehaviour:
   - {x: 1.0133257, y: 0.26272774, z: 0}
   m_ShapePathHash: -1878644939
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50732
+  m_InstanceId: 68644
   m_LocalBounds:
     m_Center: {x: 0.018795967, y: 0.46433818, z: 0}
     m_Extent: {x: 0.9945297, y: 0.21126711, z: 0}
@@ -6553,7 +6586,7 @@ MonoBehaviour:
   - {x: 0.9114077, y: -0.705286, z: 0}
   m_ShapePathHash: 1301560273
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50824
+  m_InstanceId: 68736
   m_LocalBounds:
     m_Center: {x: 0.7887142, y: 0.2787025, z: 0}
     m_Extent: {x: 0.12269354, y: 0.9840028, z: 0}

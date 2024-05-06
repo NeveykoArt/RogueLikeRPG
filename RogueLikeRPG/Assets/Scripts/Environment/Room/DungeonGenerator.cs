@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    public static DungeonGenerator Instance { get; set; }
+
     public class Cell
     {
         public bool visited = false;
@@ -11,48 +13,78 @@ public class DungeonGenerator : MonoBehaviour
         public List<int> blockagePosition = new List<int>(); // 0 - up, 1 - down, 2 - right, 3 - left
         public int healstonePosition = 4; // 0 - up, 1 - down, 2 - right, 3 - left, 4 - none
         public bool lastRoom = false;
+        public bool firstRoom = false;
+        public int index;
     }
 
     public Vector2Int size;
-    public int startPos = 0;
     public GameObject room;
     public GameObject navMeshSurface;
     public Vector2 offset;
-
+    public int commonLevel = 0;
+     
     List<Cell> board;
 
-    void Start()
+    private List<GameObject> dungeon = new List<GameObject>();
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
     {
         MazeGenerator();
     }
 
-    void GenerateDungeon()
+    public void RebuildDungeon()
+    {
+        DeleteDungeon();
+        MazeGenerator(Random.Range(0, (size.x - size.x / 2) * (size.y - size.y / 2)));
+    }
+
+    private void GenerateDungeon()
     {
         for (int i = 0; i < size.x; i++)
         {
             for (int j = 0; j < size.y; j++)
             {
-                Cell currentCell = board[i + j * size.x];
-                //лабиринт с тупиками
+                var index = (i + j * size.x);
+                Cell currentCell = board[index];
+                currentCell.index = index;
+
+                //лабиринт с заполнением тупиков
                 /*
-                var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
-                newRoom.UpdateRoom(currentCell.status);
-                newRoom.SetBlockage(currentCell.blockagePosition);
-                newRoom.name += "_" + i + "-" + j;
+                var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
+                newRoom.GetComponent<RoomBehaviour>().UpdateRoom(currentCell);
+                newRoom.name += "_" + (i + j * size.x);
+                dungeon.Add(newRoom);
                 */
-                //лабиринт c минимумом тупиков
+
+                //лабиринт без заполнения тупиков
                 if (currentCell.visited)
                 {
-                    var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
-                    newRoom.UpdateRoom(currentCell);
-                    newRoom.name += "_" + i + "-" + j;
+                    var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
+                    newRoom.GetComponent<RoomBehaviour>().UpdateRoom(currentCell);
+                    newRoom.name += "_" + (i + j * size.x);
+                    dungeon.Add(newRoom);
                 }
             }
         }
         navMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
-    void MazeGenerator()
+    public void DeleteDungeon()
+    {
+        for (int i = 0; i < dungeon.Count; i++)
+        {
+            dungeon[i].GetComponent<RoomBehaviour>().DeleteProceduralObjects();
+            Debug.Log($"{dungeon[i].name} was deleted");
+            Destroy(dungeon[i]);
+        }
+    }
+
+    public void MazeGenerator(int startPos = 0)
     {
         board = new List<Cell>();
 
@@ -65,6 +97,8 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         int currentCell = startPos;
+
+        board[currentCell].firstRoom = true;
 
         Stack<int> path = new Stack<int>();
 
@@ -149,7 +183,7 @@ public class DungeonGenerator : MonoBehaviour
         GenerateDungeon();
     }
 
-    List<int> CheckNeighbors(int cell)
+    private List<int> CheckNeighbors(int cell)
     {
         List<int> neighbors = new List<int>();
 

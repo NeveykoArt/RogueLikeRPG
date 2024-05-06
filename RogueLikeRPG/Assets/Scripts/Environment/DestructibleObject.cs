@@ -8,7 +8,8 @@ public class DestructableObject : MonoBehaviour
 
     private int health = 2;
 
-    public Object destroyed;
+    public GameObject destroyed;
+    private GameObject destr;
 
     private void Start()
     {
@@ -42,7 +43,13 @@ public class DestructableObject : MonoBehaviour
 
     private void DestroyTheObject()
     {
-        Instantiate(destroyed, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        destr = Instantiate(destroyed, transform.position, Quaternion.identity);
+    }
+
+    public void DeleteDestroyed()
+    {
+        Destroy(destr);
     }
 }

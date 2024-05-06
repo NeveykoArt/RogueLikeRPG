@@ -10,8 +10,6 @@ public class GameInput : MonoBehaviour
 
     public event EventHandler OnPlayerAttack;
 
-    public event EventHandler OnPlayerProtect;
-
     private void Awake()
     {
         Instance = this;
