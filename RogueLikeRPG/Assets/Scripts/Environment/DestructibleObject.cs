@@ -20,7 +20,7 @@ public class DestructableObject : MonoBehaviour
     {
         if (isShacking == true)
         {
-            transform.position = pos + UnityEngine.Random.insideUnitCircle * shake;
+            transform.position = pos + Random.insideUnitCircle * shake;
         }
     }
 
@@ -45,7 +45,7 @@ public class DestructableObject : MonoBehaviour
     {
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        destr = Instantiate(destroyed, transform.position, Quaternion.identity);
+        destr = Instantiate(destroyed, transform.position, Quaternion.identity, transform);
     }
 
     public void DeleteDestroyed()

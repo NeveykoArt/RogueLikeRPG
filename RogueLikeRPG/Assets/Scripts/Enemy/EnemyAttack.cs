@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    private List<GameObject> arrows = new List<GameObject>();
+
     public int damage = 10;
     public Transform attackPoint;
     public float attackRange = 2f;
@@ -19,7 +22,16 @@ public class EnemyAttack : MonoBehaviour
 
     public void Shoot()
     {
-        Instantiate(arrow, new Vector3(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
+        arrows.Add(Instantiate(arrow, new Vector3(transform.position.x, transform.position.y + 0.7f), Quaternion.identity));
+    }
+
+    public void DeleteArrows()
+    {
+        for(int i = 0; i < arrows.Count; i++)
+        {
+            Destroy(arrows[i]);
+        }
+        arrows.Clear();
     }
 
     private void OnDrawGizmosSelected()

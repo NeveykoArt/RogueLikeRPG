@@ -89,13 +89,22 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        rb.MovePosition(rb.position + inputVector * (PlayerStats.Instance.currentAgility * Time.fixedDeltaTime));
-        if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
+        if (Input.GetKey("space") && playerVisual.dashFlag)
         {
-            isWalking = true;
-        } else
+            rb.MovePosition(rb.position + inputVector * (((float)PlayerStats.Instance.currentAgility / 10) * Time.fixedDeltaTime * 2));
+            playerVisual.SetAnimation("Dash");
+        }
+        else
         {
-            isWalking = false;
+            rb.MovePosition(rb.position + inputVector * (((float)PlayerStats.Instance.currentAgility / 10) * Time.fixedDeltaTime));
+            if (Mathf.Abs(inputVector.x) > minMovingSpeed || Mathf.Abs(inputVector.y) > minMovingSpeed)
+            {
+                isWalking = true;
+            }
+            else
+            {
+                isWalking = false;
+            }
         }
     }
 

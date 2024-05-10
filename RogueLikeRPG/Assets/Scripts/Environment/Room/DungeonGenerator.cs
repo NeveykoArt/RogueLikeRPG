@@ -1,31 +1,38 @@
-using NavMeshPlus.Components;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    public static DungeonGenerator Instance { get; set; }
+    public static DungeonGenerator Instance { get; private set; }
+
+    public bool typeOfGame = false;
 
     public class Cell
     {
-        public bool visited = false;
-        public bool[] status = new bool[4];
         public List<int> blockagePosition = new List<int>(); // 0 - up, 1 - down, 2 - right, 3 - left
+        
+        public bool[] status = new bool[4];
+        public bool visited = false;
+
         public int healstonePosition = 4; // 0 - up, 1 - down, 2 - right, 3 - left, 4 - none
+        
+        public int theMostRemotedRoom = 0;
+        public int remoteness = 0;
+        public int index;
+
         public bool lastRoom = false;
         public bool firstRoom = false;
-        public int index;
     }
 
     public Vector2Int size;
     public GameObject room;
-    public GameObject navMeshSurface;
-    public Vector2 offset;
-    public int commonLevel = 0;
-     
-    List<Cell> board;
+    public GameObject boss_room;
+    public Vector2Int offset;
+    private int theMostRemotedRoom = 0;
 
-    private List<GameObject> dungeon = new List<GameObject>();
+    private List<Cell> board;
+
+    private List<GameObject> rooms = new List<GameObject>();
 
     private void Awake()
     {
@@ -36,15 +43,17 @@ public class DungeonGenerator : MonoBehaviour
     {
         MazeGenerator();
     }
-
-    public void RebuildDungeon()
-    {
-        DeleteDungeon();
-        MazeGenerator(Random.Range(0, (size.x - size.x / 2) * (size.y - size.y / 2)));
-    }
-
+    
     private void GenerateDungeon()
     {
+        Vector2Int pathSize = new Vector2Int(0, 0);
+        pathSize.x = offset.x * 2 * size.x;
+        pathSize.y = offset.y * 2 * size.y;
+
+        Vector2 pathCenter = new Vector2(-23, 13);
+        pathCenter.x += offset.x * size.x;
+        pathCenter.y -= offset.y * size.y;
+
         for (int i = 0; i < size.x; i++)
         {
             for (int j = 0; j < size.y; j++)
@@ -52,39 +61,51 @@ public class DungeonGenerator : MonoBehaviour
                 var index = (i + j * size.x);
                 Cell currentCell = board[index];
                 currentCell.index = index;
-
+                currentCell.theMostRemotedRoom = theMostRemotedRoom;
                 //лабиринт с заполнением тупиков
                 /*
                 var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
                 newRoom.GetComponent<RoomBehaviour>().UpdateRoom(currentCell);
-                newRoom.name += "_" + (i + j * size.x);
+                newRoom.name += "_" + index;
                 dungeon.Add(newRoom);
                 */
 
                 //лабиринт без заполнения тупиков
                 if (currentCell.visited)
                 {
-                    var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
-                    newRoom.GetComponent<RoomBehaviour>().UpdateRoom(currentCell);
-                    newRoom.name += "_" + (i + j * size.x);
-                    dungeon.Add(newRoom);
+                    GameObject newRoom;
+                    if (currentCell.lastRoom && typeOfGame)
+                    {
+                        newRoom = Instantiate(boss_room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
+                    } else
+                    {
+                        newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
+                    }
+                    newRoom.GetComponent<RoomBehaviour>().UpdateRoom(currentCell, typeOfGame);
+                    newRoom.name += "_" + index;
+                    rooms.Add(newRoom);
                 }
             }
         }
-        navMeshSurface.GetComponent<NavMeshSurface>().BuildNavMesh();
+        AstarPath.active.data.gridGraph.SetDimensions(pathSize.x, pathSize.y, 0.5f);
+        AstarPath.active.data.gridGraph.center = new Vector3(pathCenter.x/2, pathCenter.y/2, 0);
+        AstarPath.active.Scan();
     }
 
-    public void DeleteDungeon()
+    public void RebuildDungeon()
     {
-        for (int i = 0; i < dungeon.Count; i++)
+        for (int i = 0; i < rooms.Count; i++)
         {
-            dungeon[i].GetComponent<RoomBehaviour>().DeleteProceduralObjects();
-            Debug.Log($"{dungeon[i].name} was deleted");
-            Destroy(dungeon[i]);
+            rooms[i].GetComponent<RoomBehaviour>().DeleteRoomInformation();
+            Destroy(rooms[i]);
         }
+        rooms.Clear();
+        PlayerStats.Instance.points += 1;
+        MazeGenerator(Random.Range(0, (size.x - size.x / 2) * (size.y - size.y / 2)));
+        PlayerStats.Instance.dungeons += 1;
     }
 
-    public void MazeGenerator(int startPos = 0)
+    private void MazeGenerator(int startPos = 0)
     {
         board = new List<Cell>();
 
@@ -116,7 +137,6 @@ public class DungeonGenerator : MonoBehaviour
                 break;
             }
             
-
             //проверяем соседей
             List<int> neighbors = CheckNeighbors(currentCell);
 
@@ -136,6 +156,8 @@ public class DungeonGenerator : MonoBehaviour
                 path.Push(currentCell);
 
                 int newCell = neighbors[Random.Range(0, neighbors.Count)];
+
+                board[newCell].remoteness = board[currentCell].remoteness + 1;
 
                 if (newCell > currentCell)
                 {
@@ -180,13 +202,13 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
         board[currentCell].lastRoom = true;
+        theMostRemotedRoom = board[currentCell].remoteness;
         GenerateDungeon();
     }
 
     private List<int> CheckNeighbors(int cell)
     {
         List<int> neighbors = new List<int>();
-
         //Верхний
         if (cell - size.y >= 0 && !board[cell - size.y].visited)
         {
@@ -207,7 +229,6 @@ public class DungeonGenerator : MonoBehaviour
         {
             neighbors.Add(cell - 1);
         }
-
         return neighbors;
     }
 }

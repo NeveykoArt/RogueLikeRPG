@@ -13,7 +13,7 @@ public class InteractScript : MonoBehaviour
         {
             if (Input.GetKeyDown(interactKey))
             {
-                interactAction.Invoke();
+                interactAction?.Invoke();
             }
         }
     }

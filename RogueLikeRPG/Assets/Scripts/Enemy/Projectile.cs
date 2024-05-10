@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        target = new Vector3(player.position.x, player.position.y + 1);
+        target = new Vector3(player.position.x, player.position.y + 0.7f);
 
         direction = target - transform.position;
         float rotation = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
@@ -40,6 +40,7 @@ public class Projectile : MonoBehaviour
             enabled = false;
         }
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && projectileType == State.xp)

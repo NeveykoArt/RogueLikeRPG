@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
             playerLevelBar.value = 0;
             LevelUpMenu.SetActive(true);
             DamageStat.text = PlayerStats.Instance.damage.ToString();
-            AgilityStat.text = PlayerStats.Instance.agility.ToString();
+            AgilityStat.text = ((float)PlayerStats.Instance.agility / 10).ToString();
             ArmorStat.text = PlayerStats.Instance.armor.ToString();
         }
     }
@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
     }
     public void IncreaseAgility()
     {
-        PlayerStats.Instance.agility += 0.1f;
+        PlayerStats.Instance.agility += 1;
         LevelUpMenu.SetActive(false);
     }
     public void IncreaseArmor()

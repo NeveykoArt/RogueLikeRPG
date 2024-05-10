@@ -22,8 +22,10 @@ public class PlayerStats : MonoBehaviour
     public int currentDamage { get; set; }
     public int armor { get; set; } = 10;
     public int currentArmor { get; set; }
-    public float agility { get; set; } = 2f;
-    public float currentAgility { get; set; }
+    public int agility { get; set; } = 20;
+    public int currentAgility { get; set; }
+    public int points { get; set; } = 0;
+    public int dungeons { get; set; } = 0;
 
     private void Awake()
     {
@@ -40,19 +42,19 @@ public class PlayerStats : MonoBehaviour
         currentArmor = armor;
         currentAgility = agility;
     }
-    public IEnumerable DamageDebuff(int debuff,  int delay)
+    public IEnumerable DamageDebuff(int debuff,  float delay)
     {
         currentDamage -= debuff;
         yield return new WaitForSeconds(delay);
         currentDamage = damage;
     }
-    public IEnumerable AgilityDebuff(float debuff, int delay)
+    public IEnumerable AgilityDebuff(int debuff, float delay)
     {
         currentAgility -= debuff;
         yield return new WaitForSeconds(delay);
         currentAgility = agility;
     }
-    public IEnumerable ArmorDebuff(int debuff, int delay)
+    public IEnumerable ArmorDebuff(int debuff, float delay)
     {
         currentArmor -= debuff;
         yield return new WaitForSeconds(delay);

@@ -1,72 +1,69 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomBehaviour : MonoBehaviour
 {
     public GameObject[] walls;
     public GameObject[] doors;
-    public GameObject[] blockages;
-    public GameObject[] healstones;
-    public GameObject[] portals;
+    public GameObject[] blockagePoints;
+    public GameObject[] healstonePoints;
+    public GameObject[] portalPoints;
 
-    public GameObject blockageObject;
-    public GameObject healstoneObject;
-    public GameObject portalObject;
+    public GameObject blockagePrefab;
+    public GameObject healstonePrefab;
+    public GameObject portalPrefab;
 
     public GameObject PlayerPosition;
 
-    private GameObject portal;
-    private List<GameObject> blocks = new List<GameObject>();
-    private GameObject healstone;
-
-    public void UpdateRoom(DungeonGenerator.Cell currentCell)
+    public void UpdateRoom(DungeonGenerator.Cell currentCell, bool typeOfGame)
     {
         for (int i = 0; i < currentCell.status.Length; i++)
         {
             doors[i].SetActive(currentCell.status[i]);
             walls[i].SetActive(!currentCell.status[i]);
-            if (currentCell.lastRoom && currentCell.status[i])
+            if (currentCell.lastRoom && currentCell.status[i] && !typeOfGame)
             {
-                portal = Instantiate(portalObject, portals[i].transform.position, Quaternion.identity);
+                var portal = Instantiate(portalPrefab, portalPoints[i].transform.position, Quaternion.identity, transform);
                 portal.name += "_" + currentCell.index;
             }
         }
+
         if (currentCell.healstonePosition != 4)
         {
-            healstone = Instantiate(healstoneObject, healstones[currentCell.healstonePosition].transform.position, Quaternion.identity);
+            var healstone = Instantiate(healstonePrefab, 
+                healstonePoints[currentCell.healstonePosition].transform.position, Quaternion.identity, transform);
             healstone.name += "_" + currentCell.index;
         }
+
         for (int i = 0; i < currentCell.blockagePosition.Count; i++)
         {
-            var block = Instantiate(blockageObject, blockages[currentCell.blockagePosition[i]].transform.position, Quaternion.identity);
+            var block = Instantiate(blockagePrefab, 
+                blockagePoints[currentCell.blockagePosition[i]].transform.position, Quaternion.identity, transform);
             block.name += "_" + currentCell.index;
-            blocks.Add(block);
         }
+
         if (currentCell.firstRoom)
         {
-            Player.Instance.GetComponent<Transform>().position = PlayerPosition.transform.position;
+            Player.Instance.transform.position = PlayerPosition.transform.position;
             Camera.main.transform.position = new Vector3(PlayerPosition.transform.position.x, PlayerPosition.transform.position.y, -10);
+        }
+
+        if (typeOfGame && currentCell.lastRoom)
+        {
+            //gameObject.GetComponent<BossManager>().FillData(currentCell.theMostRemotedRoom, currentCell.remoteness, currentCell.firstRoom);
+        } else
+        {
+            gameObject.GetComponent<EnemyManager>().FillData(currentCell.theMostRemotedRoom, currentCell.remoteness, currentCell.firstRoom);
         }
     }
 
-    public void DeleteProceduralObjects()
+    public void DeleteRoomInformation()
     {
-        for(int i = 0; i < blocks.Count; i++)
+        gameObject.GetComponent<EnemyManager>().DeleteEnemies();
+        for (int i = 0; i < 4; i++) 
         {
-            blocks[i].GetComponent<DestructableObject>().DeleteDestroyed();
-            Debug.Log($"{blocks[i].name} was deleted");
-            Destroy(blocks[i]);
+            doors[i].SetActive(false);
+            walls[i].SetActive(false);
         }
-        if (healstone != null)
-        {
-            Debug.Log($"{healstone.name} was deleted");
-            Destroy(healstone);
-        }
-        if (portal != null)
-        {
-            Debug.Log($"{portal.name} was deleted");
-            portal.GetComponent<PortalController>().DeleteInteractElement();
-            Destroy(portal);
-        }
+        AstarPath.active.Scan();
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 using Game.Utils;
 using TMPro;
+using Pathfinding;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -16,43 +16,43 @@ public class EnemyAI : MonoBehaviour
 
     public GameObject projectile;
 
-    public int health = 100;
-    private int currentHealth;
-
-    private Transform player;
-
-    private float roamingDistanceMax = 3f;
-    private float roamingDistanceMin = 1f;
-    public float archerStepDistance = 0.5f;
-
-    private float roamingTimerMax = 10f;
-    private float roamingTime = 10f;
-    private float idleTimerMax = 5f;
-    private float idleTime = 5f;
-    private bool idleFlag = true;
-    private bool runFlag = false;
-    private bool dodgeFlag = false;
-
-    private NavMeshAgent navMeshAgent;
-    private Vector3 roamingPosition;
-    private Vector3 startingPosition;
-
-    [Range(1, 10)] public float agroRadius;
-    [Range(.1f, 3)] public float meleeRadius;
-    [Range(.1f, 3)] public float offset;
-    public LayerMask playerLayer;
-
-    private float nextAttack = 0f;
-    private float nextShoot = 0f;
-    private float nextDodge = 0f;
-
     public bool showGizmos;
 
     public Status mobStatus = Status.Chasing;
 
     [Range(2, 3)] public int attackCount = 3;
 
-    private Vector3 lastVector;
+    public LayerMask playerLayer;
+
+    [Range(1, 15)] public float agroRadius;
+    [Range(.1f, 3)] public float meleeRadius;
+    [Range(.1f, 3)] public float offset;
+
+    private int health = 100;
+    private int currentHealth;
+
+    private Transform player;
+
+    private float roamingDistanceMax = 3f;
+    private float roamingDistanceMin = 1f;
+    private float archerStepDistance = 0.7f;
+
+    private float roamingTimerMax = 10f;
+    private float roamingTime = 10f;
+    private float idleTimerMax = 5f;
+    private float idleTime = 5f;
+
+    private bool idleFlag = true;
+    private bool runFlag = false;
+    private bool dodgeFlag = false;
+
+    private AIPath aiPath;
+    private Vector3 roamingPosition;
+    private Vector3 startingPosition;
+
+    private float nextAttack = 0f;
+    private float nextShoot = 0f;
+    private float nextDodge = 0f;
 
     public enum Status{
         Chasing,
@@ -61,9 +61,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updateRotation = false;
-        navMeshAgent.updateUpAxis = false;
+        aiPath = GetComponent<AIPath>();
     }
 
     private void Start()
@@ -81,6 +79,7 @@ public class EnemyAI : MonoBehaviour
             var agroCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), agroRadius, playerLayer);
             if (agroCollider != null)
             {
+                ChangeFacingDirection(transform.position, player.position);
                 if (mobStatus == Status.Chasing)
                 {
                     Chasing();
@@ -93,7 +92,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (runFlag)
                 {
-                    navMeshAgent.ResetPath();
+                    aiPath.SetPath(null);
                     runFlag = false;
                     enemyVisual.SetRunningAnimation(runFlag);
                 }
@@ -106,18 +105,21 @@ public class EnemyAI : MonoBehaviour
                     Roaming();
                 }
             }
+        } else
+        {
+            aiPath.SetPath(null);
         }
     }
 
     private void Idling()
     {
-        navMeshAgent.ResetPath();
+        aiPath.SetPath(null);
         idleTime -= Time.deltaTime;
         if (idleTime < 0)
         {
             idleTime = idleTimerMax;
             enemyVisual.SetRoamingAnimation(true);
-            navMeshAgent.speed = 1.0f;
+            aiPath.maxSpeed = 1.0f;
             SetDestination(GetRoamingPosition());
             idleFlag = false;
         }
@@ -128,7 +130,7 @@ public class EnemyAI : MonoBehaviour
         roamingTime -= Time.deltaTime;
         if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.5f || roamingTime < 0)
         {
-            navMeshAgent.ResetPath();
+            aiPath.SetPath(null);
             roamingTime = roamingTimerMax;
             enemyVisual.SetRoamingAnimation(false);
             idleFlag = true;
@@ -140,10 +142,10 @@ public class EnemyAI : MonoBehaviour
         var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
         if (meleeCollider != null)
         {
-            navMeshAgent.ResetPath();
+            aiPath.SetPath(null);
             runFlag = false;
             enemyVisual.SetRunningAnimation(runFlag);
-            navMeshAgent.speed = 1f;
+            aiPath.maxSpeed = 1.0f;
             DoAttack();
         }
         else
@@ -152,7 +154,7 @@ public class EnemyAI : MonoBehaviour
             enemyVisual.SetRoamingAnimation(false);
             runFlag = true;
             enemyVisual.SetRunningAnimation(runFlag);
-            navMeshAgent.speed = 1.5f;
+            aiPath.maxSpeed = 1.5f;
         }
     }
 
@@ -161,8 +163,14 @@ public class EnemyAI : MonoBehaviour
         var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
         if (meleeCollider != null)
         {
-            ChangeFacingDirection(transform.position, player.position);
-            DoAttack();
+            if (dodgeFlag)
+            {
+                Dodge();
+            }
+            else
+            {
+                DoAttack();
+            }
         }
         else
         {
@@ -171,7 +179,6 @@ public class EnemyAI : MonoBehaviour
                 Dodge();
             } else
             {
-                ChangeFacingDirection(transform.position, player.position);
                 DoShoot();
             }
         }
@@ -181,14 +188,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (nextDodge <= Time.time)
         {
-            navMeshAgent.speed = 3.0f;
-            if (GetArcherPosition() != transform.position)
-            {
-                SetDestination(GetArcherPosition()); //делает шаг назад/вперед после выстрела противоположно текущему щагу игрока
-            } else
-            {
-                SetDestination(transform.position + lastVector); //делает шаг назад/вперед после выстрела противоположно последнему щагу игрока
-            }
+            aiPath.maxSpeed = 2f;
+            SetDestination(GetArcherPosition()); 
             enemyVisual.SetAnimation(gameObject.tag.ToString() + "Dodge");
             dodgeFlag = false;
             nextDodge = Time.time + 2.65f;
@@ -216,10 +217,16 @@ public class EnemyAI : MonoBehaviour
             string attack = gameObject.tag.ToString() + "Attack" + UnityEngine.Random.Range(1, attackCount).ToString();
             enemyVisual.SetAnimation(attack);
             nextAttack = Time.time + 1.25f;
+            if (mobStatus == Status.Shooting) {
+                if (nextDodge <= Time.time)
+                {
+                    dodgeFlag = true;
+                }
+            }
         }
     }
 
-    public void EnemyHealthBarUpdate()
+    private void EnemyHealthBarUpdate()
     {
         if (enemyCanvas.activeSelf == false)
         {
@@ -231,9 +238,12 @@ public class EnemyAI : MonoBehaviour
 
     public void EnemyTakeDamage(int damage)
     {
-        navMeshAgent.ResetPath();
+        aiPath.SetPath(null);
         enemyVisual.SetRoamingAnimation(false);
-        enemyVisual.SetRunningAnimation(false);
+        if (mobStatus != Status.Shooting)
+        { 
+            enemyVisual.SetRunningAnimation(false);
+        }
 
         string hurt = gameObject.tag.ToString() + "Hurt";
         enemyVisual.SetAnimation(hurt);
@@ -243,6 +253,8 @@ public class EnemyAI : MonoBehaviour
 
         EnemyHealthBarUpdate();
 
+        PlayerStats.Instance.points += 1;
+
         if (currentHealth <= 0)
         {
             enemyCanvas.SetActive(false);
@@ -250,14 +262,15 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void EnemyDie()
+    private void EnemyDie()
     {
+        aiPath.SetPath(null);
+        aiPath.enabled = false;
         GetComponent<Collider2D>().enabled = false;
         enemyAttack.enabled = false;
         enemyVisual.SetDeadAnimation();
-        navMeshAgent.ResetPath();
-        navMeshAgent.enabled = false;
         Instantiate(projectile, transform.position, Quaternion.identity);
+        PlayerStats.Instance.points += 10;
         enabled = false;
     }
 
@@ -266,7 +279,7 @@ public class EnemyAI : MonoBehaviour
         startingPosition = transform.position;
         roamingPosition = position;
         ChangeFacingDirection(startingPosition, roamingPosition);
-        navMeshAgent.SetDestination(roamingPosition);
+        aiPath.destination = roamingPosition;
     }
 
     private Vector3 GetRoamingPosition()
@@ -276,8 +289,7 @@ public class EnemyAI : MonoBehaviour
 
     private Vector3 GetArcherPosition()
     {
-        lastVector = (new Vector3(GameInput.Instance.GetMovementVector().x, GameInput.Instance.GetMovementVector().y) * archerStepDistance);
-        return transform.position + (new Vector3(GameInput.Instance.GetMovementVector().x, GameInput.Instance.GetMovementVector().y) * archerStepDistance);
+        return transform.position + ((transform.position - Player.Instance.transform.position).normalized * archerStepDistance);
     }
 
     private void ChangeFacingDirection(Vector3 sourcePosition, Vector3 targetPosition)

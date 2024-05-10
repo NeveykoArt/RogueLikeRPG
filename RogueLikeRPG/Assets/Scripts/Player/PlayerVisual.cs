@@ -10,6 +10,8 @@ public class PlayerVisual : MonoBehaviour
     public Transform attackPoint;
 
     public bool _isHurt = false;
+    public bool dashFlag = true;
+    private float dashDelay = 0;
 
     private void Awake()
     {
@@ -18,6 +20,12 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
+        if (dashDelay <= Time.time)
+        {
+            dashDelay = Time.time + 3f;
+            dashFlag = true;
+        }
+
         animator.SetBool(IS_WALKING, Player.Instance.isWalking);
         animator.SetBool(IS_PROTECT, Player.Instance.isProtect);
         AdjustPlayerFacingDirection();
@@ -60,5 +68,10 @@ public class PlayerVisual : MonoBehaviour
     public void HurtOn()
     {
         _isHurt = true;
+    }
+
+    public void SetDash()
+    {
+        dashFlag = false;
     }
 }
