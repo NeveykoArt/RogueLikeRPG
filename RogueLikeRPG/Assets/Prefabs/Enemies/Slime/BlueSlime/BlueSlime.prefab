@@ -168,7 +168,7 @@ MonoBehaviour:
   - {x: 0.8, y: 0, z: 0}
   m_ShapePathHash: -514028887
   m_Mesh: {fileID: 0}
-  m_InstanceId: 69360
+  m_InstanceId: 65342
   m_LocalBounds:
     m_Center: {x: 0, y: 0.5, z: 0}
     m_Extent: {x: 0.8, y: 0.5, z: 0}
@@ -292,7 +292,7 @@ MonoBehaviour:
   projectile: {fileID: 4776691994445864395, guid: 66c97bff145e582479b37afdb0f53d62, type: 3}
   showGizmos: 0
   mobStatus: 0
-  attackCount: 3
+  attackCount: 4
   playerLayer:
     serializedVersion: 2
     m_Bits: 64

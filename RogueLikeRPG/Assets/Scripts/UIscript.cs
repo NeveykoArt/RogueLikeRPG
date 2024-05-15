@@ -21,15 +21,18 @@ public class UIscript : MonoBehaviour
     public void PlayPointGame()
     {
         SceneManager.LoadScene(3);
+        Time.timeScale = 1;
     }
 
     public void PlaySpeedRunGame()
     {
         SceneManager.LoadScene(4);
+        Time.timeScale = 1;
     }
 
-    public void QuitTheGame()
+    public void RestartGame()
     {
-        Application.Quit();
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

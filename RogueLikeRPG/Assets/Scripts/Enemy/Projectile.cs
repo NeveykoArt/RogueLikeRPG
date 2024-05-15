@@ -12,13 +12,14 @@ public class Projectile : MonoBehaviour
 
     private enum State{
         xp,
-        arrow
+        arrow,
+        fireball
     }
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        target = new Vector3(player.position.x, player.position.y + 0.7f);
+        target = new Vector3(player.position.x, player.position.y + 0.4f);
 
         direction = target - transform.position;
         float rotation = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
@@ -30,27 +31,48 @@ public class Projectile : MonoBehaviour
         if (projectileType == State.xp)
         {
             transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
-        } else if (projectileType == State.arrow)
+        }
+        if (projectileType == State.arrow || projectileType == State.fireball)
         {
             transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
         }
         if (transform.position == new Vector3(target.x, target.y))
         {
-            GetComponent<Collider2D>().enabled = false;
-            enabled = false;
+            if (projectileType == State.fireball)
+            {
+                GetComponent<Animator>().Play("BlastAnimation");
+            } else
+            {
+                GetComponent<Collider2D>().enabled = false;
+                enabled = false;
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && projectileType == State.xp)
+        if (other.CompareTag("Player"))
         {
-            LevelManager.Instance.IncreaseLevel(stat);
-            Destroy(gameObject);
-        } else if (other.CompareTag("Player") && projectileType == State.arrow)
-        {
-            other.GetComponent<Player>().TakeDamage(stat);
-            Destroy(gameObject);
+            if (projectileType == State.xp)
+            {
+                LevelManager.Instance.IncreaseLevel(stat);
+                Destroy(gameObject);
+            }
+            if (projectileType == State.fireball)
+            {
+                GetComponent<Animator>().Play("BlastAnimation");
+                other.GetComponent<Player>().TakeDamage(stat);
+            }
+            if (projectileType == State.arrow)
+            {
+                other.GetComponent<Player>().TakeDamage(stat);
+                Destroy(gameObject);
+            }
         }
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 }

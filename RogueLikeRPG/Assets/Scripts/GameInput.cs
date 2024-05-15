@@ -1,8 +1,6 @@
 using System;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class GameInput : MonoBehaviour
 {
@@ -12,7 +10,12 @@ public class GameInput : MonoBehaviour
 
     public event EventHandler OnPlayerAttack;
 
-    private bool pause = false;
+    public bool pause = false;
+    public bool otherMenu = false;
+
+    public GameObject PauseMenu;
+
+    public GameObject textAndBars;
 
     private void Awake()
     {
@@ -24,20 +27,45 @@ public class GameInput : MonoBehaviour
         playerInputActions.PauseGame.Pause.started += Pause_started;
     }
 
+    private void OnDestroy()
+    {
+        playerInputActions.Combat.Attack.started -= PlayerAttack_started;
+        playerInputActions.PauseGame.Pause.started -= Pause_started;
+    }
+
+    private void Update()
+    {
+        PauseMenu.SetActive(pause);
+    }
+
     private void Pause_started(InputAction.CallbackContext obj)
     {
-        if (!pause)
-        {
-            Time.timeScale = 0;
-            Player.Instance.playerVisual.GetComponent<PlayerVisual>().enabled = false;
-            pause = true;
+        if (!otherMenu) {
+            if (!pause)
+            {
+                pause = true;
+                PauseGame();
+            }
+            else
+            {
+                UnpauseGame();
+            }
         }
-        else
-        {
-            Time.timeScale = 1;
-            Player.Instance.playerVisual.GetComponent<PlayerVisual>().enabled = true;
-            pause = false;
-        }
+    }
+
+    public void PauseGame()
+    {
+        playerInputActions.Combat.Attack.started -= PlayerAttack_started;
+        Time.timeScale = 0;
+        Player.Instance.playerVisual.GetComponent<PlayerVisual>().enabled = false;
+    }
+
+    public void UnpauseGame()
+    {
+        playerInputActions.Combat.Attack.started += PlayerAttack_started;
+        Player.Instance.playerVisual.GetComponent<PlayerVisual>().enabled = true;
+        Time.timeScale = 1;
+        pause = false;
     }
 
     private void PlayerAttack_started(InputAction.CallbackContext obj)

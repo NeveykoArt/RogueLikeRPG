@@ -8,9 +8,6 @@ public class DestructableObject : MonoBehaviour
 
     private int health = 2;
 
-    public GameObject destroyed;
-    private GameObject destr;
-
     private void Start()
     {
         pos = transform.position;
@@ -30,7 +27,7 @@ public class DestructableObject : MonoBehaviour
         health--;
         if (health <= 0)
         {
-            DestroyTheObject();
+            Destroy(gameObject);
         }
         Invoke("StopShacking", .2f);
     }
@@ -39,17 +36,5 @@ public class DestructableObject : MonoBehaviour
     {
         isShacking = false;
         transform.position = pos;
-    }
-
-    private void DestroyTheObject()
-    {
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        destr = Instantiate(destroyed, transform.position, Quaternion.identity, transform);
-    }
-
-    public void DeleteDestroyed()
-    {
-        Destroy(destr);
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Slime
   - Skeleton
+  - Boss
   layers:
   - Default
   - TransparentFX

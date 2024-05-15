@@ -47,10 +47,7 @@ public class RoomBehaviour : MonoBehaviour
             Camera.main.transform.position = new Vector3(PlayerPosition.transform.position.x, PlayerPosition.transform.position.y, -10);
         }
 
-        if (typeOfGame && currentCell.lastRoom)
-        {
-            //gameObject.GetComponent<BossManager>().FillData(currentCell.theMostRemotedRoom, currentCell.remoteness, currentCell.firstRoom);
-        } else
+        if (!(typeOfGame && currentCell.lastRoom))
         {
             gameObject.GetComponent<EnemyManager>().FillData(currentCell.theMostRemotedRoom, currentCell.remoteness, currentCell.firstRoom);
         }

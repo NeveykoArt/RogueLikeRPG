@@ -1,11 +1,9 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; set; }
     public int health { get; set; } = 150;
-
     private int _currentHealth;
     public int currentHealth 
     {
@@ -41,23 +39,5 @@ public class PlayerStats : MonoBehaviour
         currentDamage = damage;
         currentArmor = armor;
         currentAgility = agility;
-    }
-    public IEnumerable DamageDebuff(int debuff,  float delay)
-    {
-        currentDamage -= debuff;
-        yield return new WaitForSeconds(delay);
-        currentDamage = damage;
-    }
-    public IEnumerable AgilityDebuff(int debuff, float delay)
-    {
-        currentAgility -= debuff;
-        yield return new WaitForSeconds(delay);
-        currentAgility = agility;
-    }
-    public IEnumerable ArmorDebuff(int debuff, float delay)
-    {
-        currentArmor -= debuff;
-        yield return new WaitForSeconds(delay);
-        currentArmor = armor;
     }
 }

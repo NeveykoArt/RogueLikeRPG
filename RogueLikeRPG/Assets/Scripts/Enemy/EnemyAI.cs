@@ -20,7 +20,7 @@ public class EnemyAI : MonoBehaviour
 
     public Status mobStatus = Status.Chasing;
 
-    [Range(2, 3)] public int attackCount = 3;
+    [Range(3, 4)] public int attackCount = 4;
 
     public LayerMask playerLayer;
 

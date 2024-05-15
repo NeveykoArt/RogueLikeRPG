@@ -58,46 +58,10 @@ MonoBehaviour:
   - {x: 0.25, y: -0.31, z: 0}
   m_ShapePathHash: 1814293079
   m_Mesh: {fileID: 0}
-  m_InstanceId: 86836
+  m_InstanceId: 65280
   m_LocalBounds:
     m_Center: {x: 0.08, y: -0.128, z: 0}
     m_Extent: {x: 0.17, y: 0.182, z: 0}
---- !u!1 &96503527092249877
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3629875650817015169}
-  m_Layer: 0
-  m_Name: EnemySpawnPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3629875650817015169
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96503527092249877}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6606404529437387983}
-  - {fileID: 6904694344913782798}
-  - {fileID: 7308419795015178657}
-  - {fileID: 8873279131073203932}
-  - {fileID: 3706373635575667642}
-  m_Father: {fileID: 3628501827338090168}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &210661364360154559
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b70d79980d297f42acd7c890614cbb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 0}
+  room: {fileID: 7130719207520604720}
 --- !u!1 &229299160114556888
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7308419795015178657}
   m_Layer: 0
-  m_Name: EnemySpawnPoint3
+  m_Name: BossSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,7 +246,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3629875650817015169}
+  m_Father: {fileID: 3628501827338090168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &417518741708221045
 GameObject:
@@ -754,37 +718,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!1 &695457962212886818
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3706373635575667642}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint5
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3706373635575667642
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695457962212886818}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: -4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3629875650817015169}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &732985400161319334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +944,7 @@ MonoBehaviour:
   - {x: 0.9374256, y: -0.6181592, z: 0}
   m_ShapePathHash: 1677541853
   m_Mesh: {fileID: 0}
-  m_InstanceId: 86864
+  m_InstanceId: 65306
   m_LocalBounds:
     m_Center: {x: -0.048817635, y: 0.3178497, z: 0}
     m_Extent: {x: 0.98624325, y: 0.9360089, z: 0}
@@ -2541,7 +2474,7 @@ MonoBehaviour:
   - {x: 1.0031586, y: 0.25899935, z: 0}
   m_ShapePathHash: -1636335283
   m_Mesh: {fileID: 0}
-  m_InstanceId: 86990
+  m_InstanceId: 65432
   m_LocalBounds:
     m_Center: {x: 0.0007286072, y: 0.46463668, z: 0}
     m_Extent: {x: 1.00243, y: 0.20563734, z: 0}
@@ -3016,7 +2949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b70d79980d297f42acd7c890614cbb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 0}
+  room: {fileID: 7130719207520604720}
 --- !u!1 &3597675449828465068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3047,37 +2980,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3011301252420421734}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3622026842306076277
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6606404529437387983}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6606404529437387983
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3622026842306076277}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3629875650817015169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3683109991828409879
 GameObject:
@@ -3440,7 +3342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b70d79980d297f42acd7c890614cbb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 0}
+  room: {fileID: 7130719207520604720}
 --- !u!1 &3890036718798253608
 GameObject:
   m_ObjectHideFlags: 0
@@ -4210,7 +4112,7 @@ MonoBehaviour:
   - {x: 0.90391827, y: -0.61907244, z: 0}
   m_ShapePathHash: -2147371683
   m_Mesh: {fileID: 0}
-  m_InstanceId: 87036
+  m_InstanceId: 65472
   m_LocalBounds:
     m_Center: {x: -0.08197212, y: 0.31696123, z: 0}
     m_Extent: {x: 0.9858904, y: 0.93603367, z: 0}
@@ -4349,37 +4251,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3628501827338090168}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5447069778896774307
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8873279131073203932}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8873279131073203932
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5447069778896774307}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3629875650817015169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5498228599660908816
 GameObject:
@@ -5001,41 +4872,10 @@ MonoBehaviour:
   - {x: 0.9114077, y: -0.705286, z: 0}
   m_ShapePathHash: 1301560273
   m_Mesh: {fileID: 0}
-  m_InstanceId: 87126
+  m_InstanceId: 65564
   m_LocalBounds:
     m_Center: {x: 0.7887142, y: 0.2787025, z: 0}
     m_Extent: {x: 0.12269354, y: 0.9840028, z: 0}
---- !u!1 &6615690733626822227
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6904694344913782798}
-  m_Layer: 0
-  m_Name: EnemySpawnPoint2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6904694344913782798
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6615690733626822227}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: -4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3629875650817015169}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6783593997886336484
 GameObject:
   m_ObjectHideFlags: 0
@@ -5522,7 +5362,7 @@ MonoBehaviour:
   - {x: 0.86, y: 0.9, z: 0}
   m_ShapePathHash: -1369630509
   m_Mesh: {fileID: 0}
-  m_InstanceId: 86842
+  m_InstanceId: 65284
   m_LocalBounds:
     m_Center: {x: 0.7012113, y: 1.085, z: 0}
     m_Extent: {x: 0.15878874, y: 0.185, z: 0}
@@ -5646,7 +5486,7 @@ Transform:
   - {fileID: 2510776586973259893}
   - {fileID: 4030116574271630580}
   - {fileID: 7925930151389517256}
-  - {fileID: 3629875650817015169}
+  - {fileID: 7308419795015178657}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &4346449262436935355
@@ -5698,24 +5538,10 @@ MonoBehaviour:
   - {fileID: 5821502919107087295}
   - {fileID: 2567316950584124170}
   - {fileID: 3983532507695159177}
-  enemySpawnPoints:
-  - {fileID: 3622026842306076277}
-  - {fileID: 6615690733626822227}
-  - {fileID: 336318792700190188}
-  - {fileID: 5447069778896774307}
-  - {fileID: 695457962212886818}
-  enemyPrefabs:
-  - {fileID: 2466138528154750171, guid: 6959cae66b8c49e478ef7ee91bcaa494, type: 3}
-  - {fileID: 2466138528154750171, guid: 13dbda5bb98445c40846e03e36513d73, type: 3}
-  - {fileID: 2466138528154750171, guid: d26de075c5bdaa04583f0982b480082d, type: 3}
-  - {fileID: 2466138528154750171, guid: 2256b7340feeaa44cb6f21b46e8acda2, type: 3}
-  - {fileID: 2466138528154750171, guid: 8c290cb6fd71a944ea4985fa2224e1f7, type: 3}
-  - {fileID: 2466138528154750171, guid: f723ca70322b094449c19f68cb395edf, type: 3}
   blockagePrefab: {fileID: 9149509869975058156, guid: ec0b382403fa0474aaeecbcb638aeace, type: 3}
   healstonePrefab: {fileID: 7705980326283301577, guid: a1d05d73fda226c498666eb322cb2b78, type: 3}
   portalPrefab: {fileID: 7705980326283301577, guid: f828f78fe774f054280273841dd08bf4, type: 3}
   PlayerPosition: {fileID: 4817064636055345538}
-  visited: 0
 --- !u!114 &4392912914823342568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5728,6 +5554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5bd4ea0394f5c4bb07c61ffb8ada77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossSpawnPoint: {fileID: 336318792700190188}
+  bossPrefabs: {fileID: 5410228301586581893, guid: 748f3e12fc3a07049ba76bb9e4fa4cd9, type: 3}
 --- !u!1 &7347382547358242978
 GameObject:
   m_ObjectHideFlags: 0
@@ -5934,7 +5762,7 @@ MonoBehaviour:
   - {x: 1.0133257, y: 0.26272774, z: 0}
   m_ShapePathHash: -1878644939
   m_Mesh: {fileID: 0}
-  m_InstanceId: 86974
+  m_InstanceId: 65416
   m_LocalBounds:
     m_Center: {x: 0.018795967, y: 0.46433818, z: 0}
     m_Extent: {x: 0.9945297, y: 0.21126711, z: 0}
@@ -6304,7 +6132,7 @@ MonoBehaviour:
   - {x: 0.9114077, y: -0.705286, z: 0}
   m_ShapePathHash: 1301560273
   m_Mesh: {fileID: 0}
-  m_InstanceId: 87062
+  m_InstanceId: 65498
   m_LocalBounds:
     m_Center: {x: 0.7887142, y: 0.2787025, z: 0}
     m_Extent: {x: 0.12269354, y: 0.9840028, z: 0}

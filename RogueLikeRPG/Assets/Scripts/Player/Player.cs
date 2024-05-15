@@ -4,13 +4,15 @@ using UnityEngine.Rendering.Universal;
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
-    public PlayerVisual playerVisual;
 
-    private Rigidbody2D rb;
-    private float minMovingSpeed = 0.1f;
+    public PlayerVisual playerVisual;
 
     public bool isWalking { get; private set; } = false;
     public bool isProtect { get; private set; } = false;
+
+    private Rigidbody2D rb;
+
+    private float minMovingSpeed = 0.1f;
 
     private Vector2 inputVector;
 
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey("space") && playerVisual.dashFlag)
         {
-            rb.MovePosition(rb.position + inputVector * (((float)PlayerStats.Instance.currentAgility / 10) * Time.fixedDeltaTime * 2));
+            rb.MovePosition(rb.position + inputVector * (((float)PlayerStats.Instance.currentAgility / 10) * Time.fixedDeltaTime * 1.5f));
             playerVisual.SetAnimation("Dash");
         }
         else

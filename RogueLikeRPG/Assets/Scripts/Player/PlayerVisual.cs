@@ -22,7 +22,7 @@ public class PlayerVisual : MonoBehaviour
     {
         if (dashDelay <= Time.time)
         {
-            dashDelay = Time.time + 3f;
+            dashDelay = Time.time + 1.5f;
             dashFlag = true;
         }
 
@@ -39,6 +39,12 @@ public class PlayerVisual : MonoBehaviour
     public void SetDieAnimation()
     {
         animator.SetBool(IS_DEAD, true);
+    }
+
+    public void StopAnimation()
+    {
+        HealthBarScript.Instance.SetLossMenu();
+        enabled = false;
     }
 
     private void AdjustPlayerFacingDirection()
