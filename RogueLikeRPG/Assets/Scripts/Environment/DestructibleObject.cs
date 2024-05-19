@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DestructableObject : MonoBehaviour
 {
+    private Animator animator;
+
     private bool isShacking = false;
     private float shake = .06f;
     private Vector2 pos;
@@ -10,6 +12,7 @@ public class DestructableObject : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         pos = transform.position;
     }
 
@@ -27,9 +30,15 @@ public class DestructableObject : MonoBehaviour
         health--;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            GetComponent<BoxCollider2D>().enabled = false;
+            animator.SetBool("isExplosion", true);
         }
         Invoke("StopShacking", .2f);
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 
     private void StopShacking()

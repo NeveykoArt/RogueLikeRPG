@@ -36,5 +36,9 @@ public class BossHealthBarScript : MonoBehaviour
         GameInput.Instance.otherMenu = true;
         GameInput.Instance.textAndBars.SetActive(false);
         winMenu.SetActive(true);
+        if (winMenu.GetComponent<WinMenuScript>() != null)
+        {
+            winMenu.GetComponent<WinMenuScript>().PrintTime();
+        }
     }
 }

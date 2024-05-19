@@ -7,8 +7,6 @@ public class BossAI : MonoBehaviour
     public BossVisual bossVisual;
     public BossAttack bossAttack;
 
-    public GameObject projectile;
-
     public bool showGizmos;
 
     public LayerMask playerLayer;

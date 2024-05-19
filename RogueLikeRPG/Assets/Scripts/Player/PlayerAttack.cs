@@ -9,18 +9,22 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        Collider2D[] hitEnemies = 
+            Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.CompareTag("Boss"))
             {
-                enemy.GetComponent<BossAI>().BossTakeDamage(PlayerStats.Instance.currentDamage);
+                enemy.GetComponent<BossAI>()
+                    .BossTakeDamage(PlayerStats.Instance.currentDamage);
             } else
             {
-                enemy.GetComponent<EnemyAI>().EnemyTakeDamage(PlayerStats.Instance.currentDamage);
+                enemy.GetComponent<EnemyAI>()
+                    .EnemyTakeDamage(PlayerStats.Instance.currentDamage);
             }
         }
-        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, destructibleObjectLayer);
+        Collider2D[] hitObjects = 
+            Physics2D.OverlapCircleAll(attackPoint.position, attackRange, destructibleObjectLayer);
         foreach (Collider2D destrObj in hitObjects)
         {
             destrObj.GetComponent<DestructableObject>().TakeDamage();
@@ -34,3 +38,4 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
+

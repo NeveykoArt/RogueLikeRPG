@@ -160,26 +160,19 @@ public class EnemyAI : MonoBehaviour
 
     private void Shooting()
     {
-        var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
-        if (meleeCollider != null)
+        if (dodgeFlag)
         {
-            if (dodgeFlag)
-            {
-                Dodge();
-            }
-            else
+            Dodge();
+        } else
+        {
+            var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
+            if (meleeCollider != null)
             {
                 DoAttack();
             }
-        }
-        else
-        {
-            if (dodgeFlag)
+            else
             {
-                Dodge();
-            } else
-            {
-                DoShoot();
+                DoShot();
             }
         }
     }
@@ -196,7 +189,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void DoShoot()
+    private void DoShot()
     {
         if (nextShoot <= Time.time)
         {

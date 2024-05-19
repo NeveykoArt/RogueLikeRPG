@@ -4,18 +4,12 @@ using UnityEngine.Rendering.Universal;
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
-
     public PlayerVisual playerVisual;
-
     public bool isWalking { get; private set; } = false;
     public bool isProtect { get; private set; } = false;
-
     private Rigidbody2D rb;
-
     private float minMovingSpeed = 0.1f;
-
     private Vector2 inputVector;
-
     public float nextAttack = 0f;
 
     private void Awake()
@@ -116,3 +110,4 @@ public class Player : MonoBehaviour
         return playerScreenPosition;
     }
 }
+
