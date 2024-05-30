@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float minMovingSpeed = 0.1f;
     private Vector2 inputVector;
     public float nextAttack = 0f;
+    public float nextProtect = 0f;
 
     private void Awake()
     {
@@ -33,8 +34,11 @@ public class Player : MonoBehaviour
         if (!playerVisual.isHurt()) {
             if (GameInput.Instance.ProtectStatus())
             {
-                isWalking = false;
-                isProtect = true;
+                if (Time.time >= nextProtect)
+                {
+                    isWalking = false;
+                    isProtect = true;
+                }
             }
             else
             {
@@ -57,7 +61,12 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!isProtect) {
+        if (isProtect)
+        {
+            isProtect = false;
+            nextProtect = Time.time + 3f;
+        } else
+        {
             PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
 
             playerVisual.SetAnimation("Hurt");

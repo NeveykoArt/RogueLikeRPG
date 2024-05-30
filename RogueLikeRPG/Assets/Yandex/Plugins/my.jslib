@@ -11,7 +11,6 @@ mergeInto(LibraryManager.library, {
       },
 
       RateGame: function () {
-    
         ysdk.feedback.canReview()
         .then(({ value, reason }) => {
             if (value) {

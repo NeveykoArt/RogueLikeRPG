@@ -7,11 +7,12 @@ TagManager:
   - Slime
   - Skeleton
   - Boss
+  - Walls
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
   - Player

@@ -135,7 +135,7 @@ MonoBehaviour:
   - {x: 0.14, y: 1.1, z: 0}
   m_ShapePathHash: 23853590
   m_Mesh: {fileID: 0}
-  m_InstanceId: 68636
+  m_InstanceId: 34314
   m_LocalBounds:
     m_Center: {x: -0.004000008, y: 0.8, z: 0}
     m_Extent: {x: 0.144, y: 0.3, z: 0}
@@ -217,11 +217,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2466138528154750171}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 70
+  m_Mass: 100
   m_LinearDrag: 20
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -268,8 +268,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0006080866, y: 0.5624311}
-  m_Size: {x: 0.36276984, y: 1.0744452}
+  m_Offset: {x: 0, y: 0.5624311}
+  m_Size: {x: 0.7111005, y: 1.0744452}
   m_Direction: 0
 --- !u!114 &4670463208654130091
 MonoBehaviour:

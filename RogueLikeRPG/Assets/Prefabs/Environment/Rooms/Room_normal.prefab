@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.25, y: -0.31, z: 0}
   m_ShapePathHash: 1814293079
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50798
+  m_InstanceId: 88688
   m_LocalBounds:
     m_Center: {x: 0.08, y: -0.128, z: 0}
     m_Extent: {x: 0.17, y: 0.182, z: 0}
@@ -546,9 +546,10 @@ GameObject:
   - component: {fileID: 2419113248665555837}
   - component: {fileID: 6395561749481636580}
   - component: {fileID: 8553123075462611220}
+  - component: {fileID: 1540986968482828581}
   m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -754,6 +755,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &1540986968482828581
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672226280179212955}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &695457962212886818
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +807,7 @@ Transform:
   m_GameObject: {fileID: 695457962212886818}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: -4, z: 0}
+  m_LocalPosition: {x: 5, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1011,7 +1039,7 @@ MonoBehaviour:
   - {x: 0.9374256, y: -0.6181592, z: 0}
   m_ShapePathHash: 1677541853
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50826
+  m_InstanceId: 88716
   m_LocalBounds:
     m_Center: {x: -0.048817635, y: 0.3178497, z: 0}
     m_Extent: {x: 0.98624325, y: 0.9360089, z: 0}
@@ -1027,9 +1055,10 @@ GameObject:
   - component: {fileID: 6350302379609848316}
   - component: {fileID: 5691499170758436483}
   - component: {fileID: 1653036483051417943}
+  - component: {fileID: 9220619960163961648}
   m_Layer: 10
   m_Name: WallsTilemap
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1457,6 +1486,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &9220619960163961648
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812890742365975156}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1111408646722251875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,9 +1525,10 @@ GameObject:
   - component: {fileID: 792858053642942277}
   - component: {fileID: 2620721438774313366}
   - component: {fileID: 3304426453262468107}
-  m_Layer: 11
+  - component: {fileID: 3903949393212072314}
+  m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1676,6 +1733,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &3903949393212072314
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111408646722251875}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1578123671856767807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,9 +1990,10 @@ GameObject:
   - component: {fileID: 5991901867602080088}
   - component: {fileID: 5738711550905744475}
   - component: {fileID: 6102809009797928232}
+  - component: {fileID: 5717572392323265027}
   m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2114,6 +2199,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &5717572392323265027
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121890027741281344}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &2363801936885017789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2126,9 +2238,10 @@ GameObject:
   - component: {fileID: 7510806979071392281}
   - component: {fileID: 6912752596173100194}
   - component: {fileID: 3794630627408374846}
-  m_Layer: 11
+  - component: {fileID: 2575053850039391759}
+  m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2333,6 +2446,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &2575053850039391759
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2363801936885017789}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &2482405580956071329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2541,7 +2681,7 @@ MonoBehaviour:
   - {x: 1.0031586, y: 0.25899935, z: 0}
   m_ShapePathHash: -1636335283
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50952
+  m_InstanceId: 88850
   m_LocalBounds:
     m_Center: {x: 0.0007286072, y: 0.46463668, z: 0}
     m_Extent: {x: 1.00243, y: 0.20563734, z: 0}
@@ -3073,7 +3213,7 @@ Transform:
   m_GameObject: {fileID: 3622026842306076277}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: 2, z: 0}
+  m_LocalPosition: {x: -7, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3137,9 +3277,10 @@ GameObject:
   - component: {fileID: 6872467243833605266}
   - component: {fileID: 308885099199334503}
   - component: {fileID: 4826948481656234147}
-  m_Layer: 11
+  - component: {fileID: 7402059490991937702}
+  m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3336,6 +3477,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &7402059490991937702
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3686814019286769111}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &3875136935578864107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,9 +3621,10 @@ GameObject:
   - component: {fileID: 4271114805244802663}
   - component: {fileID: 1776265127524233445}
   - component: {fileID: 6527839476553779442}
+  - component: {fileID: 2049180252490916570}
   m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3661,6 +3830,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &2049180252490916570
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3890036718798253608}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &3983532507695159177
 GameObject:
   m_ObjectHideFlags: 0
@@ -4210,7 +4406,7 @@ MonoBehaviour:
   - {x: 0.90391827, y: -0.61907244, z: 0}
   m_ShapePathHash: -2147371683
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50998
+  m_InstanceId: 88898
   m_LocalBounds:
     m_Center: {x: -0.08197212, y: 0.31696123, z: 0}
     m_Extent: {x: 0.9858904, y: 0.93603367, z: 0}
@@ -4375,7 +4571,7 @@ Transform:
   m_GameObject: {fileID: 5447069778896774307}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 2, z: 0}
+  m_LocalPosition: {x: 5, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4657,9 +4853,10 @@ GameObject:
   - component: {fileID: 6266690754977381225}
   - component: {fileID: 388345075404172388}
   - component: {fileID: 3223295302555028992}
+  - component: {fileID: 2136842935511222011}
   m_Layer: 10
   m_Name: Down
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4861,6 +5058,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &2136842935511222011
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092848192281533270}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &6351985276202408546
 GameObject:
   m_ObjectHideFlags: 0
@@ -5001,7 +5225,7 @@ MonoBehaviour:
   - {x: 0.9114077, y: -0.705286, z: 0}
   m_ShapePathHash: 1301560273
   m_Mesh: {fileID: 0}
-  m_InstanceId: 51088
+  m_InstanceId: 88992
   m_LocalBounds:
     m_Center: {x: 0.7887142, y: 0.2787025, z: 0}
     m_Extent: {x: 0.12269354, y: 0.9840028, z: 0}
@@ -5030,7 +5254,7 @@ Transform:
   m_GameObject: {fileID: 6615690733626822227}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: -4, z: 0}
+  m_LocalPosition: {x: -7, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5230,9 +5454,10 @@ GameObject:
   - component: {fileID: 6740679599689946701}
   - component: {fileID: 1432211259283501295}
   - component: {fileID: 7195820041024479430}
-  m_Layer: 11
+  - component: {fileID: 4015906676511142662}
+  m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5433,6 +5658,33 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &4015906676511142662
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6873259417463510611}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &6890741319190094258
 GameObject:
   m_ObjectHideFlags: 0
@@ -5522,7 +5774,7 @@ MonoBehaviour:
   - {x: 0.86, y: 0.9, z: 0}
   m_ShapePathHash: -1369630509
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50804
+  m_InstanceId: 88694
   m_LocalBounds:
     m_Center: {x: 0.7012113, y: 1.085, z: 0}
     m_Extent: {x: 0.15878874, y: 0.185, z: 0}
@@ -5933,7 +6185,7 @@ MonoBehaviour:
   - {x: 1.0133257, y: 0.26272774, z: 0}
   m_ShapePathHash: -1878644939
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50936
+  m_InstanceId: 88834
   m_LocalBounds:
     m_Center: {x: 0.018795967, y: 0.46433818, z: 0}
     m_Extent: {x: 0.9945297, y: 0.21126711, z: 0}
@@ -6303,7 +6555,7 @@ MonoBehaviour:
   - {x: 0.9114077, y: -0.705286, z: 0}
   m_ShapePathHash: 1301560273
   m_Mesh: {fileID: 0}
-  m_InstanceId: 51024
+  m_InstanceId: 88926
   m_LocalBounds:
     m_Center: {x: 0.7887142, y: 0.2787025, z: 0}
     m_Extent: {x: 0.12269354, y: 0.9840028, z: 0}

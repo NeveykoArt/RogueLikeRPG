@@ -6,6 +6,8 @@ public class WinMenuScript : MonoBehaviour
     public TextMeshProUGUI currentTime;
     public TextMeshProUGUI bestTime;
 
+    public GameObject rateButton;
+
     public void PrintTime()
     {
         var hour = TextManager.Instance.hour;
@@ -18,6 +20,7 @@ public class WinMenuScript : MonoBehaviour
             || (SaveProgress.Instance.PlayerInfo.bestTime == 0))
         {
             SaveProgress.Instance.PlayerInfo.bestTime = hour * 3600 + min * 60 + sec;
+            rateButton.SetActive(true);
         }
 
         int bestHour = SaveProgress.Instance.PlayerInfo.bestTime / 3600;

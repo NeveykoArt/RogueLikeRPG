@@ -21,7 +21,6 @@ public class SaveProgress : MonoBehaviour
     {
         if (Instance == null)
         {
-            PlayerInfo = new PlayerInfo();
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
             Instance = this;

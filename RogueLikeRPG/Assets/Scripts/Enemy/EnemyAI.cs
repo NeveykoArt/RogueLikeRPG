@@ -76,25 +76,25 @@ public class EnemyAI : MonoBehaviour
     {
         if (!enemyVisual.IsHurt())
         {
-            var agroCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), agroRadius, playerLayer);
-            if (agroCollider != null)
+            if (Physics2D.OverlapCircle(new Vector3(transform.position.x,
+                transform.position.y + offset, transform.position.z), agroRadius, playerLayer) != null)
             {
                 ChangeFacingDirection(transform.position, player.position);
-                if (mobStatus == Status.Chasing)
+                switch (mobStatus)
                 {
-                    Chasing();
-                } else if (mobStatus == Status.Shooting)
-                {
-                    Shooting();
+                    case Status.Chasing:
+                        Chasing();
+                        break;
+                    case Status.Shooting:
+                        Shooting();
+                        break;
                 }
             }
             else
             {
                 if (runFlag)
                 {
-                    aiPath.SetPath(null);
-                    runFlag = false;
-                    enemyVisual.SetRunningAnimation(runFlag);
+                    OffRunning();
                 }
                 if (idleFlag)
                 {
@@ -111,6 +111,21 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void OffRunning()
+    {
+        aiPath.SetPath(null);
+        runFlag = false;
+        enemyVisual.SetRunningAnimation(runFlag);
+    }
+
+    private void OnRunning()
+    {
+        runFlag = true;
+        aiPath.maxSpeed = 1.5f;
+        enemyVisual.SetRunningAnimation(runFlag);
+        aiPath.maxSpeed = 1.5f;
+    }
+
     private void Idling()
     {
         aiPath.SetPath(null);
@@ -118,8 +133,8 @@ public class EnemyAI : MonoBehaviour
         if (idleTime < 0)
         {
             idleTime = idleTimerMax;
-            enemyVisual.SetRoamingAnimation(true);
             aiPath.maxSpeed = 1.0f;
+            enemyVisual.SetRoamingAnimation(true);
             SetDestination(GetRoamingPosition());
             idleFlag = false;
         }
@@ -128,7 +143,7 @@ public class EnemyAI : MonoBehaviour
     private void Roaming()
     {
         roamingTime -= Time.deltaTime;
-        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 0.5f || roamingTime < 0)
+        if (Mathf.Abs(Vector3.Distance(roamingPosition, transform.position)) < 1f || roamingTime < 0)
         {
             aiPath.SetPath(null);
             roamingTime = roamingTimerMax;
@@ -142,19 +157,14 @@ public class EnemyAI : MonoBehaviour
         var meleeCollider = Physics2D.OverlapCircle(new Vector3(transform.position.x, transform.position.y + offset, transform.position.z), meleeRadius, playerLayer);
         if (meleeCollider != null)
         {
-            aiPath.SetPath(null);
-            runFlag = false;
-            enemyVisual.SetRunningAnimation(runFlag);
-            aiPath.maxSpeed = 1.0f;
+            OffRunning();
             DoAttack();
         }
         else
         {
             SetDestination(player.position);
             enemyVisual.SetRoamingAnimation(false);
-            runFlag = true;
-            enemyVisual.SetRunningAnimation(runFlag);
-            aiPath.maxSpeed = 1.5f;
+            OnRunning();
         }
     }
 

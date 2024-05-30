@@ -22,7 +22,8 @@ public class RoomBehaviour : MonoBehaviour
             walls[i].SetActive(!currentCell.status[i]);
             if (currentCell.lastRoom && currentCell.status[i] && !typeOfGame)
             {
-                var portal = Instantiate(portalPrefab, portalPoints[i].transform.position, Quaternion.identity, transform);
+                var portal = Instantiate(portalPrefab, 
+                    portalPoints[i].transform.position, Quaternion.identity, transform);
                 portal.name += "_" + currentCell.index;
             }
         }
@@ -44,12 +45,14 @@ public class RoomBehaviour : MonoBehaviour
         if (currentCell.firstRoom)
         {
             Player.Instance.transform.position = PlayerPosition.transform.position;
-            Camera.main.transform.position = new Vector3(PlayerPosition.transform.position.x, PlayerPosition.transform.position.y, -10);
+            Camera.main.transform.position = new Vector3(PlayerPosition.transform.position.x, 
+                PlayerPosition.transform.position.y, -10);
         }
 
         if (!(typeOfGame && currentCell.lastRoom))
         {
-            gameObject.GetComponent<EnemyManager>().FillData(currentCell.theMostRemotedRoom, currentCell.remoteness, currentCell.firstRoom);
+            gameObject.GetComponent<EnemyManager>().FillData(currentCell.theMostRemotedRoom, 
+                currentCell.remoteness, currentCell.firstRoom);
         }
     }
 

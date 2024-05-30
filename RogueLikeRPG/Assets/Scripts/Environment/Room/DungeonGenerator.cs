@@ -44,7 +44,7 @@ public class DungeonGenerator : MonoBehaviour
         MazeGenerator();
     }
     
-    private void GenerateDungeon()
+    private void DungeonBuilder()
     {
         Vector2Int pathSize = new Vector2Int(0, 0);
         pathSize.x = offset.x * 2 * size.x;
@@ -61,7 +61,7 @@ public class DungeonGenerator : MonoBehaviour
                 var index = (i + j * size.x);
                 Cell currentCell = board[index];
                 currentCell.index = index;
-                currentCell.theMostRemotedRoom = theMostRemotedRoom;
+                currentCell.theMostRemotedRoom = theMostRemotedRoom; 
                 //лабиринт с заполнением тупиков
                 /*
                 var newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
@@ -76,10 +76,12 @@ public class DungeonGenerator : MonoBehaviour
                     GameObject newRoom;
                     if (currentCell.lastRoom && typeOfGame)
                     {
-                        newRoom = Instantiate(boss_room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
+                        newRoom = Instantiate(boss_room, 
+                            new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
                     } else
                     {
-                        newRoom = Instantiate(room, new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
+                        newRoom = Instantiate(room, 
+                            new Vector3(i * offset.x, -j * offset.y, 0), Quaternion.identity, transform);
                     }
                     newRoom.GetComponent<RoomBehaviour>().UpdateRoom(currentCell, typeOfGame);
                     newRoom.name += "_" + index;
@@ -101,7 +103,7 @@ public class DungeonGenerator : MonoBehaviour
         }
         rooms.Clear();
         PlayerStats.Instance.points += 1;
-        MazeGenerator(Random.Range(0, (size.x - size.x / 2) * (size.y - size.y / 2)));
+        MazeGenerator();
         PlayerStats.Instance.dungeons += 1;
     }
 
@@ -125,7 +127,7 @@ public class DungeonGenerator : MonoBehaviour
 
         int k = 0;
 
-        while(k < 1000)
+        while(k < size.x * size.y)
         {
             k++;
 
@@ -203,7 +205,7 @@ public class DungeonGenerator : MonoBehaviour
         }
         board[currentCell].lastRoom = true;
         theMostRemotedRoom = board[currentCell].remoteness;
-        GenerateDungeon();
+        DungeonBuilder();
     }
 
     private List<int> CheckNeighbors(int cell)

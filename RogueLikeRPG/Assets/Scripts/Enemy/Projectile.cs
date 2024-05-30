@@ -41,7 +41,10 @@ public class Projectile : MonoBehaviour
             if (projectileType == State.fireball)
             {
                 GetComponent<Animator>().Play("BlastAnimation");
-            } else
+                GetComponent<Collider2D>().enabled = false;
+                enabled = false;
+            }
+            else
             {
                 GetComponent<Collider2D>().enabled = false;
                 enabled = false;
@@ -51,6 +54,18 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Walls"))
+        {
+            if (projectileType == State.fireball)
+            {
+                GetComponent<Animator>().Play("BlastAnimation");
+                Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
         if (other.CompareTag("Player"))
         {
             if (projectileType == State.xp)

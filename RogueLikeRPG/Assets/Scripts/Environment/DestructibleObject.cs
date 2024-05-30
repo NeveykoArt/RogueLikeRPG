@@ -39,6 +39,7 @@ public class DestructableObject : MonoBehaviour
     public void DestroyObject()
     {
         Destroy(gameObject);
+        AstarPath.active.Scan();
     }
 
     private void StopShacking()

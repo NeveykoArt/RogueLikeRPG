@@ -6,6 +6,8 @@ public class LossMenuScript : MonoBehaviour
     public TextMeshProUGUI currentPoints;
     public TextMeshProUGUI bestPoints;
 
+    public GameObject rateButton;
+
     public void PrintPoints()
     {
         currentPoints.text = PlayerStats.Instance.points.ToString();
@@ -13,6 +15,7 @@ public class LossMenuScript : MonoBehaviour
         if (PlayerStats.Instance.points > SaveProgress.Instance.PlayerInfo.bestPoints)
         {
             SaveProgress.Instance.PlayerInfo.bestPoints = PlayerStats.Instance.points;
+            rateButton.SetActive(true);
         }
 
         bestPoints.text = SaveProgress.Instance.PlayerInfo.bestPoints.ToString();

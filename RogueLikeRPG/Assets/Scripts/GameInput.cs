@@ -11,9 +11,11 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnPlayerAttack;
 
     public bool pause = false;
+    public bool help = false;
     public bool otherMenu = false;
 
     public GameObject PauseMenu;
+    public GameObject HelpMenu;
 
     public GameObject textAndBars;
 
@@ -36,6 +38,7 @@ public class GameInput : MonoBehaviour
     private void Update()
     {
         PauseMenu.SetActive(pause);
+        HelpMenu.SetActive(help);
     }
 
     private void Pause_started(InputAction.CallbackContext obj)
@@ -60,12 +63,19 @@ public class GameInput : MonoBehaviour
         Player.Instance.playerVisual.GetComponent<PlayerVisual>().enabled = false;
     }
 
+    public void Help()
+    {
+        pause = false;
+        help = true;
+    }
+
     public void UnpauseGame()
     {
         playerInputActions.Combat.Attack.started += PlayerAttack_started;
         Player.Instance.playerVisual.GetComponent<PlayerVisual>().enabled = true;
         Time.timeScale = 1;
         pause = false;
+        help = false;
     }
 
     private void PlayerAttack_started(InputAction.CallbackContext obj)
