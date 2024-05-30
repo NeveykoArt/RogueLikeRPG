@@ -15,6 +15,7 @@ public class LossMenuScript : MonoBehaviour
         if (PlayerStats.Instance.points > SaveProgress.Instance.PlayerInfo.bestPoints)
         {
             SaveProgress.Instance.PlayerInfo.bestPoints = PlayerStats.Instance.points;
+            Yandex.Instance.SetPointsToLeaderboard(PlayerStats.Instance.points);
             rateButton.SetActive(true);
         }
 

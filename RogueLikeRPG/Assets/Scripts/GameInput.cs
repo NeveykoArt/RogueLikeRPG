@@ -65,6 +65,7 @@ public class GameInput : MonoBehaviour
 
     public void Help()
     {
+        otherMenu = true;
         pause = false;
         help = true;
     }
@@ -76,6 +77,7 @@ public class GameInput : MonoBehaviour
         Time.timeScale = 1;
         pause = false;
         help = false;
+        otherMenu = false;
     }
 
     private void PlayerAttack_started(InputAction.CallbackContext obj)

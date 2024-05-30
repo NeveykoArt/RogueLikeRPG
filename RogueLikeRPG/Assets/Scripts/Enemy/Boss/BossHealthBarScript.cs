@@ -32,6 +32,7 @@ public class BossHealthBarScript : MonoBehaviour
 
     public void SetWinMenu()
     {
+        Yandex.Instance.ShowAdvertisement();
         GameInput.Instance.PauseGame();
         GameInput.Instance.otherMenu = true;
         GameInput.Instance.textAndBars.SetActive(false);

@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack;
+        PlayerStats.Instance.UpdateActiveStats();
     }
 
     private void Update()
@@ -46,7 +47,6 @@ public class Player : MonoBehaviour
                 HandleMovement();
             }
         }
-        PlayerStats.Instance.UpdateActiveStats();
     }
 
     private void GameInput_OnPlayerAttack(object sender, System.EventArgs e)
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
             nextProtect = Time.time + 3f;
         } else
         {
-            PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 2;
+            PlayerStats.Instance.currentHealth -= damage - PlayerStats.Instance.currentArmor / 4;
 
             playerVisual.SetAnimation("Hurt");
 

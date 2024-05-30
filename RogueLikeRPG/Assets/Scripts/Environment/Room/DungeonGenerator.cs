@@ -96,6 +96,7 @@ public class DungeonGenerator : MonoBehaviour
 
     public void RebuildDungeon()
     {
+        Yandex.Instance.ShowAdvertisement();
         for (int i = 0; i < rooms.Count; i++)
         {
             rooms[i].GetComponent<RoomBehaviour>().DeleteRoomInformation();
@@ -103,6 +104,8 @@ public class DungeonGenerator : MonoBehaviour
         }
         rooms.Clear();
         PlayerStats.Instance.points += 1;
+        SaveProgress.Instance.PlayerInfo.bestPoints = PlayerStats.Instance.points;
+        SaveProgress.Instance.Save();
         MazeGenerator();
         PlayerStats.Instance.dungeons += 1;
     }

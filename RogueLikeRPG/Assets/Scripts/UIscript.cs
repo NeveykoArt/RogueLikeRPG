@@ -21,12 +21,14 @@ public class UIscript : MonoBehaviour
     public void PlayPointGame()
     {
         SceneManager.LoadScene(3);
+        PlayerStats.Instance.UpdateActiveStats();
         Time.timeScale = 1;
     }
 
     public void PlaySpeedRunGame()
     {
         SceneManager.LoadScene(4);
+        PlayerStats.Instance.UpdateActiveStats();
         Time.timeScale = 1;
     }
 
@@ -34,5 +36,6 @@ public class UIscript : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PlayerStats.Instance.UpdateActiveStats();
     }
 }
