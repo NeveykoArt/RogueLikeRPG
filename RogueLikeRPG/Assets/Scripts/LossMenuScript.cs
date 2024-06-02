@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +17,10 @@ public class LossMenuScript : MonoBehaviour
         {
             SaveProgress.Instance.PlayerInfo.bestPoints = PlayerStats.Instance.points;
             Yandex.Instance.SetPointsToLeaderboard(PlayerStats.Instance.points);
-            rateButton.SetActive(true);
+            if (Yandex.Instance.status)
+            {
+                rateButton.SetActive(true);
+            }
         }
 
         bestPoints.text = SaveProgress.Instance.PlayerInfo.bestPoints.ToString();

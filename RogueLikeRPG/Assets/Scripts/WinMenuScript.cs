@@ -16,11 +16,15 @@ public class WinMenuScript : MonoBehaviour
 
         currentTime.text = hour.ToString("D2") + " : " + min.ToString("D2") + " : " + sec.ToString("D2");
 
-        if ((hour * 3600 + min * 60 + sec < SaveProgress.Instance.PlayerInfo.bestTime) 
+        if ((hour * 3600 + min * 60 + sec < SaveProgress.Instance.PlayerInfo.bestTime)
             || (SaveProgress.Instance.PlayerInfo.bestTime == 0))
         {
             SaveProgress.Instance.PlayerInfo.bestTime = hour * 3600 + min * 60 + sec;
-            rateButton.SetActive(true);
+            Yandex.Instance.SetTimeToLeaderboard(SaveProgress.Instance.PlayerInfo.bestTime * 1000);
+            if (Yandex.Instance.status)
+            {
+                rateButton.SetActive(true);
+            }
         }
 
         int bestHour = SaveProgress.Instance.PlayerInfo.bestTime / 3600;

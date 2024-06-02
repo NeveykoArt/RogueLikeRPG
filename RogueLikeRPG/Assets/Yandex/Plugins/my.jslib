@@ -1,27 +1,23 @@
 mergeInto(LibraryManager.library, {
-
-
-    Hello: function () {
-        window.alert("Hello, world!");
-        console.log("Hello, world!");
+    AuthStatus: function () {
+        ysdk.feedback.canReview().then(({ value, reason }) => {
+            if (value) {
+                myGameInstance.SendMessage('Yandex', 'AuthentificationStatus');
+            }
+        })
     },
-
-
-    GiveMePlayerData: function () {
-        myGameInstance.SendMessage('Yandex', 'SetName', player.getName());
-        myGameInstance.SendMessage('Yandex', 'SetPhoto', player.getPhoto("medium"));
-    },
-
 
     RateGame: function () {
         ysdk.feedback.canReview().then(({ value, reason }) => {
             if (value) {
                 ysdk.feedback.requestReview().then(({ feedbackSent }) => {
-                console.log(feedbackSent);
+                    myGameInstance.SendMessage('Yandex', 'OffAuthentificationStatus');
+                    console.log(feedbackSent);
                 })
             }
             else
             {
+                myGameInstance.SendMessage('Yandex', 'OffAuthentificationStatus');
                 console.log(reason)
             }
         })
@@ -32,7 +28,6 @@ mergeInto(LibraryManager.library, {
         var myobj = JSON.parse(dateString);
         player.setData(myobj);
     },
-
 
     LoadExtern: function() {
         player.getData().then(_date => {
@@ -49,7 +44,7 @@ mergeInto(LibraryManager.library, {
 
     SetToTimeLeaderboard : function(value) {
         ysdk.getLeaderboards().then(lb => {
-            lb.setLeaderboardScore('Height', value);
+            lb.setLeaderboardScore('lbTime', value);
         });
     },
 
@@ -57,8 +52,6 @@ mergeInto(LibraryManager.library, {
         ysdk.adv.showFullscreenAdv({
             callbacks: {
                 onClose: function(wasShown) {
-		    concole.log("---------ABOBA----------");
-                    // Действие после закрытия рекламы.
                 },
                 onError: function(error) {
                     // Действие в случае ошибки.

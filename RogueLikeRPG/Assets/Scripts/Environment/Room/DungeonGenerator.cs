@@ -96,7 +96,6 @@ public class DungeonGenerator : MonoBehaviour
 
     public void RebuildDungeon()
     {
-        Yandex.Instance.ShowAdvertisement();
         for (int i = 0; i < rooms.Count; i++)
         {
             rooms[i].GetComponent<RoomBehaviour>().DeleteRoomInformation();

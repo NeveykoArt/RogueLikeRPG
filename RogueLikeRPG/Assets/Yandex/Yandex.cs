@@ -1,17 +1,10 @@
-using System.Collections;
 using System.Runtime.InteropServices;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
     [DllImport("__Internal")]
-    private static extern void Hello();
-
-    [DllImport("__Internal")]
-    private static extern void GiveMePlayerData();
+    private static extern void AuthStatus();
 
     [DllImport("__Internal")]
     private static extern void RateGame();
@@ -22,8 +15,10 @@ public class Yandex : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void SetToPointsLeaderboard(int points);
 
-    [SerializeField] TextMeshProUGUI _nameText;
-    [SerializeField] RawImage _photo;
+    [DllImport("__Internal")]
+    private static extern void SetToTimeLeaderboard(int time);
+
+    public bool status = false;
 
     public static Yandex Instance;
 
@@ -33,26 +28,29 @@ public class Yandex : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    /*
-    void Start()
+    private void Start()
     {
-        GiveMePlayerData();
+        GetAuthentificationStatus();
     }
-    */
+
+    public void GetAuthentificationStatus()
+    {
+        AuthStatus();
+    }
+
+    public void AuthentificationStatus()
+    {
+        status = true;
+    }
+
+    public void OffAuthentificationStatus()
+    {
+        status = false;
+    }
 
     public void RateGameButton()
     {
         RateGame();
-    }
-
-    public void SetName(string name)
-    {
-        _nameText.text = name;
-    }
-
-    public void SetPhoto(string url)
-    {
-        StartCoroutine(DownloadImage(url));
     }
 
     public void ShowAdvertisement()
@@ -65,13 +63,8 @@ public class Yandex : MonoBehaviour
         SetToPointsLeaderboard(points);
     }
 
-    IEnumerator DownloadImage(string mediaUrl)
+    public void SetTimeToLeaderboard(int time)
     {
-        UnityWebRequest request = UnityWebRequestTexture.GetTexture(mediaUrl);
-        yield return request.SendWebRequest();
-        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-            Debug.Log(request.error);
-        else
-            _photo.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+        SetToTimeLeaderboard(time);
     }
 }

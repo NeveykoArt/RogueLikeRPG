@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerInfo
 {
-    public int bestTime;
+    public int bestTime = 0;
     public int bestPoints = 0;
 }
 
@@ -21,6 +21,7 @@ public class SaveProgress : MonoBehaviour
     {
         if (Instance == null)
         {
+            PlayerInfo = new PlayerInfo();
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
             Instance = this;
